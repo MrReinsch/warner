@@ -1,0 +1,1122 @@
+
+warner.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00803f00  00803f00  00000942  2**0
+                  ALLOC, LOAD, DATA
+  1 .text         00000090  00000000  00000000  00000154  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .eeprom       00000001  00810000  00810000  00000941  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .comment      0000002f  00000000  00000000  00000942  2**0
+                  CONTENTS, READONLY
+  4 .stack.descriptors.hdr 00000038  00000000  00000000  00000971  2**0
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000090  00000000  00000000  000009b0  2**3
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00002239  00000000  00000000  00000a40  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000137d  00000000  00000000  00002c79  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000794  00000000  00000000  00003ff6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000060  00000000  00000000  0000478c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000007df  00000000  00000000  000047ec  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000004c4  00000000  00000000  00004fcb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 000000d8  00000000  00000000  0000548f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .text         00000002  000007e2  000007e2  00000936  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 14 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00005568  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .text.buttonHandler 00000056  00000718  00000718  0000086c  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 16 .text.startup.main 00000282  000003d8  000003d8  0000052c  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 17 .text.__vector_8 000000be  0000065a  0000065a  000007ae  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 18 .bss.timeoutCounterLimit 00000001  00803f12  00803f12  00000941  2**0
+                  ALLOC
+ 19 .bss.timeoutSetting 00000001  00803f13  00803f13  00000941  2**0
+                  ALLOC
+ 20 .bss.timeoutCounter 00000002  00803f10  00803f10  00000941  2**0
+                  ALLOC
+ 21 .bss.bamCyclesCounter 00000001  00803f14  00803f14  00000941  2**0
+                  ALLOC
+ 22 .bss.buttonFrameCounterSnapShot 00000001  00803f15  00803f15  00000941  2**0
+                  ALLOC
+ 23 .bss.buttonFrameCounter 00000001  00803f16  00803f16  00000941  2**0
+                  ALLOC
+ 24 .bss.buttonIoState 00000001  00803f17  00803f17  00000941  2**0
+                  ALLOC
+ 25 .bss.bamStepTimerValueIndex 00000001  00803f18  00803f18  00000941  2**0
+                  ALLOC
+ 26 .data.prepareState 00000001  00803f19  000007ec  00000940  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+ 27 .bss.bamOutputMaskPrepareBuffer 00000008  00803f00  00803f00  00000941  2**0
+                  ALLOC
+ 28 .bss.bamOutputMaskActiveBuffer 00000008  00803f08  00803f08  00000941  2**0
+                  ALLOC
+ 29 .rodata.sequencePointerLut 00000008  008087da  000007da  0000092e  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 30 .rodata.bamTimerValueList 00000010  008087ac  000007ac  00000900  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 31 progmem.data.sequenceRightLedValues 00000118  00000090  00000090  000001e4  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, PROGMEM
+ 32 progmem.data.sequenceMidLedValues 00000118  000001a8  000001a8  000002fc  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, PROGMEM
+ 33 progmem.data.sequenceLeftLedValues 00000118  000002c0  000002c0  00000414  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, PROGMEM
+ 34 .text.__dummy_fini 00000002  000007e4  000007e4  00000938  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 35 .text.__dummy_funcs_on_exit 00000002  000007e6  000007e6  0000093a  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 36 .text.__dummy_simulator_exit 00000002  000007e8  000007e8  0000093c  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 37 .text.exit    0000000e  000007cc  000007cc  00000920  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 38 .text._Exit   00000002  000007ea  000007ea  0000093e  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 39 .text.avrlibc 00000010  000007bc  000007bc  00000910  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 40 .text.avrlibc 00000016  00000796  00000796  000008ea  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 41 .text.avrlibc 00000028  0000076e  0000076e  000008c2  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	1f c0       	rjmp	.+62     	; 0x40 <__ctors_end>
+   2:	ef c3       	rjmp	.+2014   	; 0x7e2 <__bad_interrupt>
+   4:	ee c3       	rjmp	.+2012   	; 0x7e2 <__bad_interrupt>
+   6:	ed c3       	rjmp	.+2010   	; 0x7e2 <__bad_interrupt>
+   8:	ec c3       	rjmp	.+2008   	; 0x7e2 <__bad_interrupt>
+   a:	eb c3       	rjmp	.+2006   	; 0x7e2 <__bad_interrupt>
+   c:	ea c3       	rjmp	.+2004   	; 0x7e2 <__bad_interrupt>
+   e:	e9 c3       	rjmp	.+2002   	; 0x7e2 <__bad_interrupt>
+  10:	24 c3       	rjmp	.+1608   	; 0x65a <__vector_8>
+  12:	e7 c3       	rjmp	.+1998   	; 0x7e2 <__bad_interrupt>
+  14:	e6 c3       	rjmp	.+1996   	; 0x7e2 <__bad_interrupt>
+  16:	e5 c3       	rjmp	.+1994   	; 0x7e2 <__bad_interrupt>
+  18:	e4 c3       	rjmp	.+1992   	; 0x7e2 <__bad_interrupt>
+  1a:	e3 c3       	rjmp	.+1990   	; 0x7e2 <__bad_interrupt>
+  1c:	e2 c3       	rjmp	.+1988   	; 0x7e2 <__bad_interrupt>
+  1e:	e1 c3       	rjmp	.+1986   	; 0x7e2 <__bad_interrupt>
+  20:	e0 c3       	rjmp	.+1984   	; 0x7e2 <__bad_interrupt>
+  22:	df c3       	rjmp	.+1982   	; 0x7e2 <__bad_interrupt>
+  24:	de c3       	rjmp	.+1980   	; 0x7e2 <__bad_interrupt>
+  26:	dd c3       	rjmp	.+1978   	; 0x7e2 <__bad_interrupt>
+  28:	dc c3       	rjmp	.+1976   	; 0x7e2 <__bad_interrupt>
+  2a:	db c3       	rjmp	.+1974   	; 0x7e2 <__bad_interrupt>
+  2c:	da c3       	rjmp	.+1972   	; 0x7e2 <__bad_interrupt>
+  2e:	d9 c3       	rjmp	.+1970   	; 0x7e2 <__bad_interrupt>
+  30:	d8 c3       	rjmp	.+1968   	; 0x7e2 <__bad_interrupt>
+  32:	d7 c3       	rjmp	.+1966   	; 0x7e2 <__bad_interrupt>
+
+00000034 <.dinit>:
+  34:	3f 00       	.word	0x003f	; ????
+  36:	3f 19       	sub	r19, r15
+  38:	80 3f       	cpi	r24, 0xF0	; 240
+  3a:	19 3f       	cpi	r17, 0xF9	; 249
+  3c:	1a 00       	.word	0x001a	; ????
+  3e:	07 ec       	ldi	r16, 0xC7	; 199
+
+00000040 <__ctors_end>:
+  40:	11 24       	eor	r1, r1
+  42:	1f be       	out	0x3f, r1	; 63
+  44:	cf ef       	ldi	r28, 0xFF	; 255
+  46:	cd bf       	out	0x3d, r28	; 61
+  48:	df e3       	ldi	r29, 0x3F	; 63
+  4a:	de bf       	out	0x3e, r29	; 62
+
+0000004c <__do_copy_data>:
+  4c:	e4 e3       	ldi	r30, 0x34	; 52
+  4e:	f0 e0       	ldi	r31, 0x00	; 0
+  50:	40 e0       	ldi	r20, 0x00	; 0
+  52:	17 c0       	rjmp	.+46     	; 0x82 <__EEPROM_REGION_LENGTH__+0x2>
+  54:	b5 91       	lpm	r27, Z+
+  56:	a5 91       	lpm	r26, Z+
+  58:	35 91       	lpm	r19, Z+
+  5a:	25 91       	lpm	r18, Z+
+  5c:	05 91       	lpm	r16, Z+
+  5e:	07 fd       	sbrc	r16, 7
+  60:	0c c0       	rjmp	.+24     	; 0x7a <__do_clear_bss>
+  62:	95 91       	lpm	r25, Z+
+  64:	85 91       	lpm	r24, Z+
+  66:	ef 01       	movw	r28, r30
+  68:	f9 2f       	mov	r31, r25
+  6a:	e8 2f       	mov	r30, r24
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a2 17       	cp	r26, r18
+  72:	b3 07       	cpc	r27, r19
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0x20>
+  76:	fe 01       	movw	r30, r28
+  78:	04 c0       	rjmp	.+8      	; 0x82 <__EEPROM_REGION_LENGTH__+0x2>
+
+0000007a <__do_clear_bss>:
+  7a:	1d 92       	st	X+, r1
+  7c:	a2 17       	cp	r26, r18
+  7e:	b3 07       	cpc	r27, r19
+  80:	e1 f7       	brne	.-8      	; 0x7a <__do_clear_bss>
+  82:	e0 34       	cpi	r30, 0x40	; 64
+  84:	f4 07       	cpc	r31, r20
+  86:	31 f7       	brne	.-52     	; 0x54 <__do_copy_data+0x8>
+  88:	a7 d1       	rcall	.+846    	; 0x3d8 <main>
+  8a:	a0 c3       	rjmp	.+1856   	; 0x7cc <exit>
+
+0000008c <_exit>:
+  8c:	f8 94       	cli
+
+0000008e <__stop_program>:
+  8e:	ff cf       	rjmp	.-2      	; 0x8e <__stop_program>
+
+Disassembly of section .text:
+
+000007e2 <__bad_interrupt>:
+ 7e2:	0e cc       	rjmp	.-2020   	; 0x0 <__TEXT_REGION_ORIGIN__>
+
+Disassembly of section .text.buttonHandler:
+
+00000718 <buttonHandler>:
+static inline uint8_t isButtonPressed(void) {
+  return (VPORTA.IN & PA0_MASK) == 0u;
+}
+
+static button_event_t buttonHandler(void) {
+  if (buttonIoState == BUTTON_IO_UNPRESSED) {
+ 718:	80 91 17 3f 	lds	r24, 0x3F17	; 0x803f17 <buttonIoState>
+ 71c:	81 11       	cpse	r24, r1
+ 71e:	0b c0       	rjmp	.+22     	; 0x736 <buttonHandler+0x1e>
+    if (isButtonPressed()) {
+ 720:	10 99       	sbic	0x02, 0	; 2
+ 722:	1d c0       	rjmp	.+58     	; 0x75e <buttonHandler+0x46>
+      buttonIoState = BUTTON_IO_DOWN;
+ 724:	81 e0       	ldi	r24, 0x01	; 1
+ 726:	80 93 17 3f 	sts	0x3F17, r24	; 0x803f17 <buttonIoState>
+      buttonFrameCounterSnapShot = buttonFrameCounter;
+ 72a:	80 91 16 3f 	lds	r24, 0x3F16	; 0x803f16 <buttonFrameCounter>
+ 72e:	80 93 15 3f 	sts	0x3F15, r24	; 0x803f15 <buttonFrameCounterSnapShot>
+      if (delta > BUTTON_SHORT_PRESS_COUNTER_VALUE) {
+        return BUTTON_SHORT_PRESS;
+      }
+    }
+  }
+  return BUTTON_UNPRESSED;
+ 732:	80 e0       	ldi	r24, 0x00	; 0
+ 734:	08 95       	ret
+  if (buttonIoState == BUTTON_IO_UNPRESSED) {
+    if (isButtonPressed()) {
+      buttonIoState = BUTTON_IO_DOWN;
+      buttonFrameCounterSnapShot = buttonFrameCounter;
+    }
+  } else if (buttonIoState == BUTTON_IO_LOCKED) {
+ 736:	82 30       	cpi	r24, 0x02	; 2
+ 738:	a1 f0       	breq	.+40     	; 0x762 <buttonHandler+0x4a>
+    if (!isButtonPressed()) {
+      buttonIoState = BUTTON_IO_UNPRESSED;
+    }
+  } else {
+    uint8_t delta =
+        getAbsoluteDelta(buttonFrameCounter, buttonFrameCounterSnapShot);
+ 73a:	90 91 16 3f 	lds	r25, 0x3F16	; 0x803f16 <buttonFrameCounter>
+    bamOutputMaskPrepareBuffer[(BAM_RESOLUTION_MAX - 1u) - b] = m;
+  }
+}
+
+static inline uint8_t getAbsoluteDelta(uint8_t a, uint8_t b) {
+  return (uint8_t)a - b;
+ 73e:	80 91 15 3f 	lds	r24, 0x3F15	; 0x803f15 <buttonFrameCounterSnapShot>
+ 742:	98 1b       	sub	r25, r24
+      buttonIoState = BUTTON_IO_UNPRESSED;
+    }
+  } else {
+    uint8_t delta =
+        getAbsoluteDelta(buttonFrameCounter, buttonFrameCounterSnapShot);
+    if (isButtonPressed()) {
+ 744:	10 99       	sbic	0x02, 0	; 2
+ 746:	06 c0       	rjmp	.+12     	; 0x754 <buttonHandler+0x3c>
+      if (delta > BUTTON_LONG_PRESS_COUNTER_VALUE) {
+ 748:	99 3c       	cpi	r25, 0xC9	; 201
+ 74a:	48 f0       	brcs	.+18     	; 0x75e <buttonHandler+0x46>
+        buttonIoState = BUTTON_IO_LOCKED;
+ 74c:	82 e0       	ldi	r24, 0x02	; 2
+ 74e:	80 93 17 3f 	sts	0x3F17, r24	; 0x803f17 <buttonIoState>
+        return BUTTON_LONG_PRESS;
+ 752:	08 95       	ret
+      }
+    } else {
+      buttonIoState = BUTTON_IO_UNPRESSED;
+ 754:	10 92 17 3f 	sts	0x3F17, r1	; 0x803f17 <buttonIoState>
+    uint8_t delta =
+        getAbsoluteDelta(buttonFrameCounter, buttonFrameCounterSnapShot);
+    if (isButtonPressed()) {
+      if (delta > BUTTON_LONG_PRESS_COUNTER_VALUE) {
+        buttonIoState = BUTTON_IO_LOCKED;
+        return BUTTON_LONG_PRESS;
+ 758:	81 e0       	ldi	r24, 0x01	; 1
+ 75a:	94 30       	cpi	r25, 0x04	; 4
+ 75c:	08 f4       	brcc	.+2      	; 0x760 <buttonHandler+0x48>
+      if (delta > BUTTON_SHORT_PRESS_COUNTER_VALUE) {
+        return BUTTON_SHORT_PRESS;
+      }
+    }
+  }
+  return BUTTON_UNPRESSED;
+ 75e:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 760:	08 95       	ret
+    if (isButtonPressed()) {
+      buttonIoState = BUTTON_IO_DOWN;
+      buttonFrameCounterSnapShot = buttonFrameCounter;
+    }
+  } else if (buttonIoState == BUTTON_IO_LOCKED) {
+    if (!isButtonPressed()) {
+ 762:	10 9b       	sbis	0x02, 0	; 2
+ 764:	fc cf       	rjmp	.-8      	; 0x75e <buttonHandler+0x46>
+      buttonIoState = BUTTON_IO_UNPRESSED;
+ 766:	10 92 17 3f 	sts	0x3F17, r1	; 0x803f17 <buttonIoState>
+ 76a:	80 e0       	ldi	r24, 0x00	; 0
+ 76c:	08 95       	ret
+
+Disassembly of section .text.startup.main:
+
+000003d8 <main>:
+  }
+  return (uint8_t)TIMEOUT_LIMIT_MAX;
+}
+
+static inline void init(void) {
+  PORTA_DIR = (uint8_t)(PA1_MASK | PA2_MASK | PA3_MASK | PA6_MASK | PA7_MASK);
+ 3d8:	8e ec       	ldi	r24, 0xCE	; 206
+ 3da:	80 93 00 04 	sts	0x0400, r24	; 0x800400 <__RODATA_PM_OFFSET__+0x7f8400>
+  PORTA_PIN0CTRL = PORT_PULLUPEN_bm;
+ 3de:	88 e0       	ldi	r24, 0x08	; 8
+ 3e0:	80 93 10 04 	sts	0x0410, r24	; 0x800410 <__RODATA_PM_OFFSET__+0x7f8410>
+  VPORTA.OUT = 0u;
+ 3e4:	11 b8       	out	0x01, r1	; 1
+  TCA0_SINGLE_CTRLB = 0u;
+ 3e6:	10 92 01 0a 	sts	0x0A01, r1	; 0x800a01 <__RODATA_PM_OFFSET__+0x7f8a01>
+  TCA0_SINGLE_CTRLC = 0u;
+ 3ea:	10 92 02 0a 	sts	0x0A02, r1	; 0x800a02 <__RODATA_PM_OFFSET__+0x7f8a02>
+  TCA0_SINGLE_CTRLD = 0u;
+ 3ee:	10 92 03 0a 	sts	0x0A03, r1	; 0x800a03 <__RODATA_PM_OFFSET__+0x7f8a03>
+  TCA0_SINGLE_INTCTRL = TCA_SINGLE_OVF_bm;
+ 3f2:	81 e0       	ldi	r24, 0x01	; 1
+ 3f4:	80 93 0a 0a 	sts	0x0A0A, r24	; 0x800a0a <__RODATA_PM_OFFSET__+0x7f8a0a>
+  TCA0_SINGLE_CNT = (uint16_t)BAM_BIT_0_VALUE;
+ 3f8:	8b ee       	ldi	r24, 0xEB	; 235
+ 3fa:	9f ef       	ldi	r25, 0xFF	; 255
+ 3fc:	80 93 20 0a 	sts	0x0A20, r24	; 0x800a20 <__RODATA_PM_OFFSET__+0x7f8a20>
+ 400:	90 93 21 0a 	sts	0x0A21, r25	; 0x800a21 <__RODATA_PM_OFFSET__+0x7f8a21>
+  TCA0_SINGLE_PER = (uint16_t)TIMER_MAX_VALUE;
+ 404:	8f ef       	ldi	r24, 0xFF	; 255
+ 406:	9f ef       	ldi	r25, 0xFF	; 255
+ 408:	80 93 26 0a 	sts	0x0A26, r24	; 0x800a26 <__RODATA_PM_OFFSET__+0x7f8a26>
+ 40c:	90 93 27 0a 	sts	0x0A27, r25	; 0x800a27 <__RODATA_PM_OFFSET__+0x7f8a27>
+  TCA0_SINGLE_CTRLA = TCA_SINGLE_ENABLE_bm | TCA_SINGLE_CLKSEL_DIV4_gc;
+ 410:	85 e0       	ldi	r24, 0x05	; 5
+ 412:	80 93 00 0a 	sts	0x0A00, r24	; 0x800a00 <__RODATA_PM_OFFSET__+0x7f8a00>
+  timeoutSetting = (timeout_setting_t)eeprom_read_byte(&eeTimeoutSetting);
+ 416:	80 e0       	ldi	r24, 0x00	; 0
+ 418:	90 e0       	ldi	r25, 0x00	; 0
+ 41a:	d0 d1       	rcall	.+928    	; 0x7bc <eeprom_read_byte>
+ 41c:	80 93 13 3f 	sts	0x3F13, r24	; 0x803f13 <timeoutSetting>
+static timeout_setting_t timeoutSetting;
+static uint8_t timeoutCounterLimit = 0u;
+timeout_setting_t eeTimeoutSetting EEMEM = TIMEOUT_MAX;
+
+static uint8_t getTimeoutCounterLimit(timeout_setting_t setting) {
+  if (setting == (uint8_t)TIMEOUT_OFF) {
+ 420:	88 23       	and	r24, r24
+ 422:	21 f0       	breq	.+8      	; 0x42c <__LOCK_REGION_LENGTH__+0x2c>
+    return TIMEOUT_LIMIT_OFF;
+  }
+  if (setting == (uint8_t)TIMEOUT_120S) {
+ 424:	81 30       	cpi	r24, 0x01	; 1
+ 426:	09 f4       	brne	.+2      	; 0x42a <__LOCK_REGION_LENGTH__+0x2a>
+ 428:	16 c1       	rjmp	.+556    	; 0x656 <__LOCK_REGION_LENGTH__+0x256>
+    return (uint8_t)TIMEOUT_LIMIT_120S;
+  }
+  return (uint8_t)TIMEOUT_LIMIT_MAX;
+ 42a:	80 ef       	ldi	r24, 0xF0	; 240
+  TCA0_SINGLE_INTCTRL = TCA_SINGLE_OVF_bm;
+  TCA0_SINGLE_CNT = (uint16_t)BAM_BIT_0_VALUE;
+  TCA0_SINGLE_PER = (uint16_t)TIMER_MAX_VALUE;
+  TCA0_SINGLE_CTRLA = TCA_SINGLE_ENABLE_bm | TCA_SINGLE_CLKSEL_DIV4_gc;
+  timeoutSetting = (timeout_setting_t)eeprom_read_byte(&eeTimeoutSetting);
+  timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+ 42c:	80 93 12 3f 	sts	0x3F12, r24	; 0x803f12 <timeoutCounterLimit>
+  uint8_t frameCounter = 0u;
+  sequence_state_t sequence = SEQUENCE_LEFT;
+  sequence_state_t sequenceBeforeTimeout = SEQUENCE_LEFT;
+  uint8_t isTimeoutActive = 0u;
+  init();
+  sei();
+ 430:	78 94       	sei
+
+int main(void) {
+  uint8_t frameCounter = 0u;
+  sequence_state_t sequence = SEQUENCE_LEFT;
+  sequence_state_t sequenceBeforeTimeout = SEQUENCE_LEFT;
+  uint8_t isTimeoutActive = 0u;
+ 432:	c1 2c       	mov	r12, r1
+}
+
+int main(void) {
+  uint8_t frameCounter = 0u;
+  sequence_state_t sequence = SEQUENCE_LEFT;
+  sequence_state_t sequenceBeforeTimeout = SEQUENCE_LEFT;
+ 434:	99 24       	eor	r9, r9
+ 436:	93 94       	inc	r9
+  eeprom_update_byte(&eeTimeoutSetting, (uint8_t)timeoutSetting);
+}
+
+int main(void) {
+  uint8_t frameCounter = 0u;
+  sequence_state_t sequence = SEQUENCE_LEFT;
+ 438:	c1 e0       	ldi	r28, 0x01	; 1
+  } while (event != BUTTON_LONG_PRESS);
+  eeprom_update_byte(&eeTimeoutSetting, (uint8_t)timeoutSetting);
+}
+
+int main(void) {
+  uint8_t frameCounter = 0u;
+ 43a:	31 2c       	mov	r3, r1
+ 43c:	31 e0       	ldi	r19, 0x01	; 1
+ 43e:	63 2e       	mov	r6, r19
+ 440:	3f e3       	ldi	r19, 0x3F	; 63
+ 442:	73 2e       	mov	r7, r19
+}
+
+static inline void setPrepareStateReadySafe(void) {
+  uint8_t s = SREG;
+  cli();
+  prepareState = PREPARE_READY;
+ 444:	42 e0       	ldi	r20, 0x02	; 2
+ 446:	d4 2e       	mov	r13, r20
+ 448:	57 e0       	ldi	r21, 0x07	; 7
+ 44a:	55 2e       	mov	r5, r21
+          LED_TOP_BIT_MASK | LED_RIGHT_MID_BIT_MASK | LED_LEFT_MID_BIT_MASK;
+    } else if (timeoutSetting == (uint8_t)TIMEOUT_120S) {
+      bamOutputMaskPrepareBuffer[0u] =
+          LED_TOP_BIT_MASK | LED_LEFT_BIT_MASK | LED_RIGHT_BIT_MASK;
+    } else {
+      bamOutputMaskPrepareBuffer[0u] =
+ 44c:	6e ec       	ldi	r22, 0xCE	; 206
+ 44e:	a6 2e       	mov	r10, r22
+  do {
+    if (timeoutSetting == (uint8_t)TIMEOUT_OFF) {
+      bamOutputMaskPrepareBuffer[0u] =
+          LED_TOP_BIT_MASK | LED_RIGHT_MID_BIT_MASK | LED_LEFT_MID_BIT_MASK;
+    } else if (timeoutSetting == (uint8_t)TIMEOUT_120S) {
+      bamOutputMaskPrepareBuffer[0u] =
+ 450:	76 e8       	ldi	r23, 0x86	; 134
+ 452:	87 2e       	mov	r8, r23
+    bamOutputMaskPrepareBuffer[i] = 0u;
+  }
+  uint8_t forceUpdate = 1u;
+  do {
+    if (timeoutSetting == (uint8_t)TIMEOUT_OFF) {
+      bamOutputMaskPrepareBuffer[0u] =
+ 454:	e8 ec       	ldi	r30, 0xC8	; 200
+ 456:	be 2e       	mov	r11, r30
+  sequence_state_t sequenceBeforeTimeout = SEQUENCE_LEFT;
+  uint8_t isTimeoutActive = 0u;
+  init();
+  sei();
+  while (1) {
+    button_event_t event = buttonHandler();
+ 458:	5f d1       	rcall	.+702    	; 0x718 <buttonHandler>
+    if (event == BUTTON_SHORT_PRESS) {
+ 45a:	81 30       	cpi	r24, 0x01	; 1
+ 45c:	f9 f0       	breq	.+62     	; 0x49c <__LOCK_REGION_LENGTH__+0x9c>
+        isTimeoutActive = 0u;
+      }
+      setPrepareStateReadySafe();
+      frameCounter = 0u;
+      timeoutCounter = 0u;
+    } else if (event == BUTTON_LONG_PRESS) {
+ 45e:	82 30       	cpi	r24, 0x02	; 2
+ 460:	09 f4       	brne	.+2      	; 0x464 <__LOCK_REGION_LENGTH__+0x64>
+ 462:	b2 c0       	rjmp	.+356    	; 0x5c8 <__LOCK_REGION_LENGTH__+0x1c8>
+      menu();
+      timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+      sequence = sequenceBeforeTimeout;
+      frameCounter = 0u;
+    }
+    if (prepareState == PREPARE_REQUEST) {
+ 464:	80 91 19 3f 	lds	r24, 0x3F19	; 0x803f19 <prepareState>
+ 468:	81 30       	cpi	r24, 0x01	; 1
+ 46a:	69 f1       	breq	.+90     	; 0x4c6 <__LOCK_REGION_LENGTH__+0xc6>
+      }
+      sequence_t seq = sequencePointerLut[sequence];
+      buildFrame(seq[frameCounter], sequence);
+      setPrepareStateReadySafe();
+    }
+    if ((timeoutSetting != (uint8_t)TIMEOUT_OFF) &&
+ 46c:	80 91 13 3f 	lds	r24, 0x3F13	; 0x803f13 <timeoutSetting>
+ 470:	88 23       	and	r24, r24
+ 472:	91 f3       	breq	.-28     	; 0x458 <__LOCK_REGION_LENGTH__+0x58>
+ 474:	80 91 12 3f 	lds	r24, 0x3F12	; 0x803f12 <timeoutCounterLimit>
+ 478:	90 e0       	ldi	r25, 0x00	; 0
+ 47a:	20 91 10 3f 	lds	r18, 0x3F10	; 0x803f10 <timeoutCounter>
+ 47e:	30 91 11 3f 	lds	r19, 0x3F11	; 0x803f11 <timeoutCounter+0x1>
+ 482:	28 17       	cp	r18, r24
+ 484:	39 07       	cpc	r19, r25
+ 486:	40 f3       	brcs	.-48     	; 0x458 <__LOCK_REGION_LENGTH__+0x58>
+        (timeoutCounter >= timeoutCounterLimit) && (isTimeoutActive == 0u)) {
+ 488:	c1 10       	cpse	r12, r1
+ 48a:	e6 cf       	rjmp	.-52     	; 0x458 <__LOCK_REGION_LENGTH__+0x58>
+ 48c:	9c 2e       	mov	r9, r28
+      sequenceBeforeTimeout = sequence;
+      sequence = (uint8_t)SEQUENCE_OFF;
+      isTimeoutActive = 1u;
+ 48e:	cc 24       	eor	r12, r12
+ 490:	c3 94       	inc	r12
+      setPrepareStateReadySafe();
+    }
+    if ((timeoutSetting != (uint8_t)TIMEOUT_OFF) &&
+        (timeoutCounter >= timeoutCounterLimit) && (isTimeoutActive == 0u)) {
+      sequenceBeforeTimeout = sequence;
+      sequence = (uint8_t)SEQUENCE_OFF;
+ 492:	c0 e0       	ldi	r28, 0x00	; 0
+      isTimeoutActive = 1u;
+      frameCounter = 0u;
+ 494:	31 2c       	mov	r3, r1
+  sequence_state_t sequenceBeforeTimeout = SEQUENCE_LEFT;
+  uint8_t isTimeoutActive = 0u;
+  init();
+  sei();
+  while (1) {
+    button_event_t event = buttonHandler();
+ 496:	40 d1       	rcall	.+640    	; 0x718 <buttonHandler>
+    if (event == BUTTON_SHORT_PRESS) {
+ 498:	81 30       	cpi	r24, 0x01	; 1
+ 49a:	09 f7       	brne	.-62     	; 0x45e <__LOCK_REGION_LENGTH__+0x5e>
+      if (isTimeoutActive == 0u) {
+ 49c:	c1 10       	cpse	r12, r1
+ 49e:	8d c0       	rjmp	.+282    	; 0x5ba <__LOCK_REGION_LENGTH__+0x1ba>
+        sequence = (++sequence) & SEQUENCE_MASK;
+ 4a0:	cf 5f       	subi	r28, 0xFF	; 255
+ 4a2:	c3 70       	andi	r28, 0x03	; 3
+  timeoutSetting = (timeout_setting_t)eeprom_read_byte(&eeTimeoutSetting);
+  timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+}
+
+static inline void setPrepareStateReadySafe(void) {
+  uint8_t s = SREG;
+ 4a4:	8f b7       	in	r24, 0x3f	; 63
+  cli();
+ 4a6:	f8 94       	cli
+  prepareState = PREPARE_READY;
+ 4a8:	d0 92 19 3f 	sts	0x3F19, r13	; 0x803f19 <prepareState>
+  SREG = s;
+ 4ac:	8f bf       	out	0x3f, r24	; 63
+        sequence = sequenceBeforeTimeout;
+        isTimeoutActive = 0u;
+      }
+      setPrepareStateReadySafe();
+      frameCounter = 0u;
+      timeoutCounter = 0u;
+ 4ae:	10 92 10 3f 	sts	0x3F10, r1	; 0x803f10 <timeoutCounter>
+ 4b2:	10 92 11 3f 	sts	0x3F11, r1	; 0x803f11 <timeoutCounter+0x1>
+ 4b6:	c1 2c       	mov	r12, r1
+      menu();
+      timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+      sequence = sequenceBeforeTimeout;
+      frameCounter = 0u;
+    }
+    if (prepareState == PREPARE_REQUEST) {
+ 4b8:	80 91 19 3f 	lds	r24, 0x3F19	; 0x803f19 <prepareState>
+ 4bc:	81 30       	cpi	r24, 0x01	; 1
+ 4be:	09 f4       	brne	.+2      	; 0x4c2 <__LOCK_REGION_LENGTH__+0xc2>
+ 4c0:	7e c0       	rjmp	.+252    	; 0x5be <__LOCK_REGION_LENGTH__+0x1be>
+ 4c2:	31 2c       	mov	r3, r1
+ 4c4:	d3 cf       	rjmp	.-90     	; 0x46c <__LOCK_REGION_LENGTH__+0x6c>
+      frameCounter++;
+ 4c6:	33 94       	inc	r3
+      if (frameCounter >= FRAMES_PER_SEQUENCE) {
+ 4c8:	87 e3       	ldi	r24, 0x37	; 55
+ 4ca:	83 15       	cp	r24, r3
+ 4cc:	08 f0       	brcs	.+2      	; 0x4d0 <__LOCK_REGION_LENGTH__+0xd0>
+ 4ce:	bc c0       	rjmp	.+376    	; 0x648 <__LOCK_REGION_LENGTH__+0x248>
+        frameCounter = 0u;
+        timeoutCounter++;
+ 4d0:	80 91 10 3f 	lds	r24, 0x3F10	; 0x803f10 <timeoutCounter>
+ 4d4:	90 91 11 3f 	lds	r25, 0x3F11	; 0x803f11 <timeoutCounter+0x1>
+ 4d8:	01 96       	adiw	r24, 0x01	; 1
+ 4da:	80 93 10 3f 	sts	0x3F10, r24	; 0x803f10 <timeoutCounter>
+ 4de:	90 93 11 3f 	sts	0x3F11, r25	; 0x803f11 <timeoutCounter+0x1>
+ 4e2:	80 e0       	ldi	r24, 0x00	; 0
+ 4e4:	90 e0       	ldi	r25, 0x00	; 0
+      frameCounter = 0u;
+    }
+    if (prepareState == PREPARE_REQUEST) {
+      frameCounter++;
+      if (frameCounter >= FRAMES_PER_SEQUENCE) {
+        frameCounter = 0u;
+ 4e6:	31 2c       	mov	r3, r1
+        timeoutCounter++;
+      }
+      sequence_t seq = sequencePointerLut[sequence];
+ 4e8:	ec 2f       	mov	r30, r28
+ 4ea:	f0 e0       	ldi	r31, 0x00	; 0
+ 4ec:	ee 0f       	add	r30, r30
+ 4ee:	ff 1f       	adc	r31, r31
+ 4f0:	e6 52       	subi	r30, 0x26	; 38
+ 4f2:	f8 47       	sbci	r31, 0x78	; 120
+      buildFrame(seq[frameCounter], sequence);
+ 4f4:	20 81       	ld	r18, Z
+ 4f6:	31 81       	ldd	r19, Z+1	; 0x01
+ 4f8:	28 0f       	add	r18, r24
+ 4fa:	39 1f       	adc	r19, r25
+ 4fc:	79 01       	movw	r14, r18
+ 4fe:	ff ef       	ldi	r31, 0xFF	; 255
+ 500:	ef 1a       	sub	r14, r31
+ 502:	ff 0a       	sbc	r15, r31
+ 504:	89 01       	movw	r16, r18
+ 506:	0e 5f       	subi	r16, 0xFE	; 254
+ 508:	1f 4f       	sbci	r17, 0xFF	; 255
+ 50a:	b9 01       	movw	r22, r18
+ 50c:	6d 5f       	subi	r22, 0xFD	; 253
+ 50e:	7f 4f       	sbci	r23, 0xFF	; 255
+ 510:	a9 01       	movw	r20, r18
+ 512:	4c 5f       	subi	r20, 0xFC	; 252
+ 514:	5f 4f       	sbci	r21, 0xFF	; 255
+ 516:	a8 e0       	ldi	r26, 0x08	; 8
+ 518:	bf e3       	ldi	r27, 0x3F	; 63
+ 51a:	80 e0       	ldi	r24, 0x00	; 0
+ 51c:	90 e0       	ldi	r25, 0x00	; 0
+ 51e:	38 c0       	rjmp	.+112    	; 0x590 <__LOCK_REGION_LENGTH__+0x190>
+  SREG = s;
+}
+
+static inline void buildFrame(const uint8_t *value, uint8_t forceOff) {
+  for (uint8_t b = 0u; b < BAM_RESOLUTION_MAX; b++) {
+    uint8_t m = 0u;
+ 520:	d0 e0       	ldi	r29, 0x00	; 0
+    uint8_t buffer = pgm_read_byte(&value[0]);
+    if (buffer & (1u << b)) {
+      m |= LED_TOP_BIT_MASK;
+    }
+    buffer = pgm_read_byte(&value[1]);
+ 522:	f7 01       	movw	r30, r14
+ 524:	24 90       	lpm	r2, Z
+    if (buffer & (1u << b)) {
+ 526:	e2 2d       	mov	r30, r2
+ 528:	f0 e0       	ldi	r31, 0x00	; 0
+ 52a:	04 2c       	mov	r0, r4
+ 52c:	02 c0       	rjmp	.+4      	; 0x532 <__LOCK_REGION_LENGTH__+0x132>
+ 52e:	f6 95       	lsr	r31
+ 530:	e7 95       	ror	r30
+ 532:	0a 94       	dec	r0
+ 534:	e2 f7       	brpl	.-8      	; 0x52e <__LOCK_REGION_LENGTH__+0x12e>
+ 536:	e0 fd       	sbrc	r30, 0
+      m |= LED_LEFT_BIT_MASK;
+ 538:	d4 60       	ori	r29, 0x04	; 4
+    }
+    buffer = pgm_read_byte(&value[2]);
+ 53a:	f8 01       	movw	r30, r16
+ 53c:	24 90       	lpm	r2, Z
+    if (buffer & (1u << b)) {
+ 53e:	e2 2d       	mov	r30, r2
+ 540:	f0 e0       	ldi	r31, 0x00	; 0
+ 542:	04 2c       	mov	r0, r4
+ 544:	02 c0       	rjmp	.+4      	; 0x54a <__LOCK_REGION_LENGTH__+0x14a>
+ 546:	f6 95       	lsr	r31
+ 548:	e7 95       	ror	r30
+ 54a:	0a 94       	dec	r0
+ 54c:	e2 f7       	brpl	.-8      	; 0x546 <__LOCK_REGION_LENGTH__+0x146>
+ 54e:	e0 fd       	sbrc	r30, 0
+      m |= LED_LEFT_MID_BIT_MASK;
+ 550:	d0 64       	ori	r29, 0x40	; 64
+    }
+    buffer = pgm_read_byte(&value[3]);
+ 552:	fb 01       	movw	r30, r22
+ 554:	24 90       	lpm	r2, Z
+    if (buffer & (1u << b)) {
+ 556:	e2 2d       	mov	r30, r2
+ 558:	f0 e0       	ldi	r31, 0x00	; 0
+ 55a:	04 2c       	mov	r0, r4
+ 55c:	02 c0       	rjmp	.+4      	; 0x562 <__LOCK_REGION_LENGTH__+0x162>
+ 55e:	f6 95       	lsr	r31
+ 560:	e7 95       	ror	r30
+ 562:	0a 94       	dec	r0
+ 564:	e2 f7       	brpl	.-8      	; 0x55e <__LOCK_REGION_LENGTH__+0x15e>
+ 566:	e0 fd       	sbrc	r30, 0
+      m |= LED_RIGHT_BIT_MASK;
+ 568:	d2 60       	ori	r29, 0x02	; 2
+    }
+    buffer = pgm_read_byte(&value[4]);
+ 56a:	fa 01       	movw	r30, r20
+ 56c:	24 90       	lpm	r2, Z
+    if (buffer & (1u << b)) {
+ 56e:	e2 2d       	mov	r30, r2
+ 570:	f0 e0       	ldi	r31, 0x00	; 0
+ 572:	02 c0       	rjmp	.+4      	; 0x578 <__LOCK_REGION_LENGTH__+0x178>
+ 574:	f6 95       	lsr	r31
+ 576:	e7 95       	ror	r30
+ 578:	4a 94       	dec	r4
+ 57a:	e2 f7       	brpl	.-8      	; 0x574 <__LOCK_REGION_LENGTH__+0x174>
+ 57c:	e0 fd       	sbrc	r30, 0
+      m |= LED_RIGHT_MID_BIT_MASK;
+ 57e:	d8 60       	ori	r29, 0x08	; 8
+    }
+    if (forceOff == SEQUENCE_OFF) {
+ 580:	c1 11       	cpse	r28, r1
+ 582:	01 c0       	rjmp	.+2      	; 0x586 <__LOCK_REGION_LENGTH__+0x186>
+      m = 0u;
+ 584:	d0 e0       	ldi	r29, 0x00	; 0
+    }
+    bamOutputMaskPrepareBuffer[(BAM_RESOLUTION_MAX - 1u) - b] = m;
+ 586:	de 93       	st	-X, r29
+ 588:	01 96       	adiw	r24, 0x01	; 1
+  prepareState = PREPARE_REQUEST;
+  SREG = s;
+}
+
+static inline void buildFrame(const uint8_t *value, uint8_t forceOff) {
+  for (uint8_t b = 0u; b < BAM_RESOLUTION_MAX; b++) {
+ 58a:	88 30       	cpi	r24, 0x08	; 8
+ 58c:	91 05       	cpc	r25, r1
+ 58e:	79 f0       	breq	.+30     	; 0x5ae <__LOCK_REGION_LENGTH__+0x1ae>
+    uint8_t m = 0u;
+    uint8_t buffer = pgm_read_byte(&value[0]);
+ 590:	f9 01       	movw	r30, r18
+ 592:	d4 91       	lpm	r29, Z
+    if (buffer & (1u << b)) {
+ 594:	48 2e       	mov	r4, r24
+ 596:	ed 2f       	mov	r30, r29
+ 598:	f0 e0       	ldi	r31, 0x00	; 0
+ 59a:	08 2e       	mov	r0, r24
+ 59c:	02 c0       	rjmp	.+4      	; 0x5a2 <__LOCK_REGION_LENGTH__+0x1a2>
+ 59e:	f6 95       	lsr	r31
+ 5a0:	e7 95       	ror	r30
+ 5a2:	0a 94       	dec	r0
+ 5a4:	e2 f7       	brpl	.-8      	; 0x59e <__LOCK_REGION_LENGTH__+0x19e>
+ 5a6:	e0 ff       	sbrs	r30, 0
+ 5a8:	bb cf       	rjmp	.-138    	; 0x520 <__LOCK_REGION_LENGTH__+0x120>
+      m |= LED_TOP_BIT_MASK;
+ 5aa:	d0 e8       	ldi	r29, 0x80	; 128
+ 5ac:	ba cf       	rjmp	.-140    	; 0x522 <__LOCK_REGION_LENGTH__+0x122>
+  timeoutSetting = (timeout_setting_t)eeprom_read_byte(&eeTimeoutSetting);
+  timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+}
+
+static inline void setPrepareStateReadySafe(void) {
+  uint8_t s = SREG;
+ 5ae:	8f b7       	in	r24, 0x3f	; 63
+  cli();
+ 5b0:	f8 94       	cli
+  prepareState = PREPARE_READY;
+ 5b2:	d0 92 19 3f 	sts	0x3F19, r13	; 0x803f19 <prepareState>
+  SREG = s;
+ 5b6:	8f bf       	out	0x3f, r24	; 63
+ 5b8:	59 cf       	rjmp	.-334    	; 0x46c <__LOCK_REGION_LENGTH__+0x6c>
+    button_event_t event = buttonHandler();
+    if (event == BUTTON_SHORT_PRESS) {
+      if (isTimeoutActive == 0u) {
+        sequence = (++sequence) & SEQUENCE_MASK;
+      } else {
+        sequence = sequenceBeforeTimeout;
+ 5ba:	c9 2d       	mov	r28, r9
+ 5bc:	73 cf       	rjmp	.-282    	; 0x4a4 <__LOCK_REGION_LENGTH__+0xa4>
+      menu();
+      timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+      sequence = sequenceBeforeTimeout;
+      frameCounter = 0u;
+    }
+    if (prepareState == PREPARE_REQUEST) {
+ 5be:	85 e0       	ldi	r24, 0x05	; 5
+ 5c0:	90 e0       	ldi	r25, 0x00	; 0
+      frameCounter++;
+ 5c2:	33 24       	eor	r3, r3
+ 5c4:	33 94       	inc	r3
+ 5c6:	90 cf       	rjmp	.-224    	; 0x4e8 <__LOCK_REGION_LENGTH__+0xe8>
+ 5c8:	f3 01       	movw	r30, r6
+ 5ca:	25 2d       	mov	r18, r5
+ 5cc:	11 92       	st	Z+, r1
+ 5ce:	2a 95       	dec	r18
+ 5d0:	e9 f7       	brne	.-6      	; 0x5cc <__LOCK_REGION_LENGTH__+0x1cc>
+        isTimeoutActive = 0u;
+      }
+      setPrepareStateReadySafe();
+      frameCounter = 0u;
+      timeoutCounter = 0u;
+    } else if (event == BUTTON_LONG_PRESS) {
+ 5d2:	21 e0       	ldi	r18, 0x01	; 1
+ 5d4:	80 e0       	ldi	r24, 0x00	; 0
+ 5d6:	0a c0       	rjmp	.+20     	; 0x5ec <__LOCK_REGION_LENGTH__+0x1ec>
+    bamOutputMaskPrepareBuffer[i] = 0u;
+  }
+  uint8_t forceUpdate = 1u;
+  do {
+    if (timeoutSetting == (uint8_t)TIMEOUT_OFF) {
+      bamOutputMaskPrepareBuffer[0u] =
+ 5d8:	b0 92 00 3f 	sts	0x3F00, r11	; 0x803f00 <__DATA_REGION_ORIGIN__>
+    } else {
+      bamOutputMaskPrepareBuffer[0u] =
+          LED_TOP_BIT_MASK | LED_LEFT_BIT_MASK | LED_RIGHT_BIT_MASK |
+          LED_LEFT_MID_BIT_MASK | LED_RIGHT_MID_BIT_MASK;
+    }
+    if (event == BUTTON_SHORT_PRESS) {
+ 5dc:	81 30       	cpi	r24, 0x01	; 1
+ 5de:	59 f1       	breq	.+86     	; 0x636 <__LOCK_REGION_LENGTH__+0x236>
+      if (timeoutSetting > TIMEOUT_MAX) {
+        timeoutSetting = TIMEOUT_OFF;
+      }
+      forceUpdate = 1u;
+    }
+    if (forceUpdate > 0u) {
+ 5e0:	21 11       	cpse	r18, r1
+ 5e2:	10 c0       	rjmp	.+32     	; 0x604 <__LOCK_REGION_LENGTH__+0x204>
+      setPrepareStateReadySafe();
+      forceUpdate = 0u;
+    }
+    event = buttonHandler();
+ 5e4:	99 d0       	rcall	.+306    	; 0x718 <buttonHandler>
+ 5e6:	20 e0       	ldi	r18, 0x00	; 0
+  } while (event != BUTTON_LONG_PRESS);
+ 5e8:	82 30       	cpi	r24, 0x02	; 2
+ 5ea:	a9 f0       	breq	.+42     	; 0x616 <__LOCK_REGION_LENGTH__+0x216>
+  for (uint8_t i = 1; i < BAM_RESOLUTION_MAX; i++) {
+    bamOutputMaskPrepareBuffer[i] = 0u;
+  }
+  uint8_t forceUpdate = 1u;
+  do {
+    if (timeoutSetting == (uint8_t)TIMEOUT_OFF) {
+ 5ec:	90 91 13 3f 	lds	r25, 0x3F13	; 0x803f13 <timeoutSetting>
+ 5f0:	99 23       	and	r25, r25
+ 5f2:	91 f3       	breq	.-28     	; 0x5d8 <__LOCK_REGION_LENGTH__+0x1d8>
+      bamOutputMaskPrepareBuffer[0u] =
+          LED_TOP_BIT_MASK | LED_RIGHT_MID_BIT_MASK | LED_LEFT_MID_BIT_MASK;
+    } else if (timeoutSetting == (uint8_t)TIMEOUT_120S) {
+ 5f4:	91 30       	cpi	r25, 0x01	; 1
+ 5f6:	19 f1       	breq	.+70     	; 0x63e <__LOCK_REGION_LENGTH__+0x23e>
+      bamOutputMaskPrepareBuffer[0u] =
+          LED_TOP_BIT_MASK | LED_LEFT_BIT_MASK | LED_RIGHT_BIT_MASK;
+    } else {
+      bamOutputMaskPrepareBuffer[0u] =
+ 5f8:	a0 92 00 3f 	sts	0x3F00, r10	; 0x803f00 <__DATA_REGION_ORIGIN__>
+          LED_TOP_BIT_MASK | LED_LEFT_BIT_MASK | LED_RIGHT_BIT_MASK |
+          LED_LEFT_MID_BIT_MASK | LED_RIGHT_MID_BIT_MASK;
+    }
+    if (event == BUTTON_SHORT_PRESS) {
+ 5fc:	81 30       	cpi	r24, 0x01	; 1
+ 5fe:	81 f7       	brne	.-32     	; 0x5e0 <__LOCK_REGION_LENGTH__+0x1e0>
+      timeoutSetting++;
+ 600:	10 92 13 3f 	sts	0x3F13, r1	; 0x803f13 <timeoutSetting>
+  timeoutSetting = (timeout_setting_t)eeprom_read_byte(&eeTimeoutSetting);
+  timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+}
+
+static inline void setPrepareStateReadySafe(void) {
+  uint8_t s = SREG;
+ 604:	8f b7       	in	r24, 0x3f	; 63
+  cli();
+ 606:	f8 94       	cli
+  prepareState = PREPARE_READY;
+ 608:	d0 92 19 3f 	sts	0x3F19, r13	; 0x803f19 <prepareState>
+  SREG = s;
+ 60c:	8f bf       	out	0x3f, r24	; 63
+    }
+    if (forceUpdate > 0u) {
+      setPrepareStateReadySafe();
+      forceUpdate = 0u;
+    }
+    event = buttonHandler();
+ 60e:	84 d0       	rcall	.+264    	; 0x718 <buttonHandler>
+ 610:	20 e0       	ldi	r18, 0x00	; 0
+  } while (event != BUTTON_LONG_PRESS);
+ 612:	82 30       	cpi	r24, 0x02	; 2
+ 614:	59 f7       	brne	.-42     	; 0x5ec <__LOCK_REGION_LENGTH__+0x1ec>
+  eeprom_update_byte(&eeTimeoutSetting, (uint8_t)timeoutSetting);
+ 616:	60 91 13 3f 	lds	r22, 0x3F13	; 0x803f13 <timeoutSetting>
+ 61a:	80 e0       	ldi	r24, 0x00	; 0
+ 61c:	90 e0       	ldi	r25, 0x00	; 0
+ 61e:	bb d0       	rcall	.+374    	; 0x796 <eeprom_update_byte>
+      frameCounter = 0u;
+      timeoutCounter = 0u;
+    } else if (event == BUTTON_LONG_PRESS) {
+      sequenceBeforeTimeout = sequence;
+      menu();
+      timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+ 620:	80 91 13 3f 	lds	r24, 0x3F13	; 0x803f13 <timeoutSetting>
+static timeout_setting_t timeoutSetting;
+static uint8_t timeoutCounterLimit = 0u;
+timeout_setting_t eeTimeoutSetting EEMEM = TIMEOUT_MAX;
+
+static uint8_t getTimeoutCounterLimit(timeout_setting_t setting) {
+  if (setting == (uint8_t)TIMEOUT_OFF) {
+ 624:	88 23       	and	r24, r24
+ 626:	71 f0       	breq	.+28     	; 0x644 <__LOCK_REGION_LENGTH__+0x244>
+    return TIMEOUT_LIMIT_OFF;
+  }
+  if (setting == (uint8_t)TIMEOUT_120S) {
+ 628:	81 30       	cpi	r24, 0x01	; 1
+ 62a:	99 f0       	breq	.+38     	; 0x652 <__LOCK_REGION_LENGTH__+0x252>
+    return (uint8_t)TIMEOUT_LIMIT_120S;
+  }
+  return (uint8_t)TIMEOUT_LIMIT_MAX;
+ 62c:	80 ef       	ldi	r24, 0xF0	; 240
+      frameCounter = 0u;
+      timeoutCounter = 0u;
+    } else if (event == BUTTON_LONG_PRESS) {
+      sequenceBeforeTimeout = sequence;
+      menu();
+      timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+ 62e:	80 93 12 3f 	sts	0x3F12, r24	; 0x803f12 <timeoutCounterLimit>
+      }
+      setPrepareStateReadySafe();
+      frameCounter = 0u;
+      timeoutCounter = 0u;
+    } else if (event == BUTTON_LONG_PRESS) {
+      sequenceBeforeTimeout = sequence;
+ 632:	9c 2e       	mov	r9, r28
+ 634:	41 cf       	rjmp	.-382    	; 0x4b8 <__LOCK_REGION_LENGTH__+0xb8>
+      bamOutputMaskPrepareBuffer[0u] =
+          LED_TOP_BIT_MASK | LED_LEFT_BIT_MASK | LED_RIGHT_BIT_MASK |
+          LED_LEFT_MID_BIT_MASK | LED_RIGHT_MID_BIT_MASK;
+    }
+    if (event == BUTTON_SHORT_PRESS) {
+      timeoutSetting++;
+ 636:	9f 5f       	subi	r25, 0xFF	; 255
+ 638:	90 93 13 3f 	sts	0x3F13, r25	; 0x803f13 <timeoutSetting>
+ 63c:	e3 cf       	rjmp	.-58     	; 0x604 <__LOCK_REGION_LENGTH__+0x204>
+  do {
+    if (timeoutSetting == (uint8_t)TIMEOUT_OFF) {
+      bamOutputMaskPrepareBuffer[0u] =
+          LED_TOP_BIT_MASK | LED_RIGHT_MID_BIT_MASK | LED_LEFT_MID_BIT_MASK;
+    } else if (timeoutSetting == (uint8_t)TIMEOUT_120S) {
+      bamOutputMaskPrepareBuffer[0u] =
+ 63e:	80 92 00 3f 	sts	0x3F00, r8	; 0x803f00 <__DATA_REGION_ORIGIN__>
+ 642:	cc cf       	rjmp	.-104    	; 0x5dc <__LOCK_REGION_LENGTH__+0x1dc>
+static uint8_t timeoutCounterLimit = 0u;
+timeout_setting_t eeTimeoutSetting EEMEM = TIMEOUT_MAX;
+
+static uint8_t getTimeoutCounterLimit(timeout_setting_t setting) {
+  if (setting == (uint8_t)TIMEOUT_OFF) {
+    return TIMEOUT_LIMIT_OFF;
+ 644:	80 e0       	ldi	r24, 0x00	; 0
+ 646:	f3 cf       	rjmp	.-26     	; 0x62e <__LOCK_REGION_LENGTH__+0x22e>
+ 648:	e5 e0       	ldi	r30, 0x05	; 5
+ 64a:	3e 9e       	mul	r3, r30
+ 64c:	c0 01       	movw	r24, r0
+ 64e:	11 24       	eor	r1, r1
+ 650:	4b cf       	rjmp	.-362    	; 0x4e8 <__LOCK_REGION_LENGTH__+0xe8>
+  }
+  if (setting == (uint8_t)TIMEOUT_120S) {
+    return (uint8_t)TIMEOUT_LIMIT_120S;
+ 652:	8c e3       	ldi	r24, 0x3C	; 60
+ 654:	ec cf       	rjmp	.-40     	; 0x62e <__LOCK_REGION_LENGTH__+0x22e>
+ 656:	8c e3       	ldi	r24, 0x3C	; 60
+ 658:	e9 ce       	rjmp	.-558    	; 0x42c <__LOCK_REGION_LENGTH__+0x2c>
+
+Disassembly of section .text.__vector_8:
+
+0000065a <__vector_8>:
+      frameCounter = 0u;
+    }
+  }
+}
+
+ISR(TCA0_OVF_vect) {
+ 65a:	0f 92       	push	r0
+ 65c:	0f b6       	in	r0, 0x3f	; 63
+ 65e:	0f 92       	push	r0
+ 660:	1f 92       	push	r1
+ 662:	11 24       	eor	r1, r1
+ 664:	8f 93       	push	r24
+ 666:	9f 93       	push	r25
+ 668:	af 93       	push	r26
+ 66a:	bf 93       	push	r27
+ 66c:	ef 93       	push	r30
+ 66e:	ff 93       	push	r31
+  if (bamStepTimerValueIndex >= (uint8_t)BAM_RESOLUTION_MAX) {
+ 670:	80 91 18 3f 	lds	r24, 0x3F18	; 0x803f18 <bamStepTimerValueIndex>
+ 674:	88 30       	cpi	r24, 0x08	; 8
+ 676:	90 f0       	brcs	.+36     	; 0x69c <__vector_8+0x42>
+    bamStepTimerValueIndex = 0u;
+ 678:	10 92 18 3f 	sts	0x3F18, r1	; 0x803f18 <bamStepTimerValueIndex>
+    if (++bamCyclesCounter >= CYCLES_PER_FRAME) {
+ 67c:	80 91 14 3f 	lds	r24, 0x3F14	; 0x803f14 <bamCyclesCounter>
+ 680:	8f 5f       	subi	r24, 0xFF	; 255
+ 682:	86 30       	cpi	r24, 0x06	; 6
+ 684:	90 f1       	brcs	.+100    	; 0x6ea <__vector_8+0x90>
+      bamCyclesCounter = 0;
+ 686:	10 92 14 3f 	sts	0x3F14, r1	; 0x803f14 <bamCyclesCounter>
+      buttonFrameCounter++;
+ 68a:	80 91 16 3f 	lds	r24, 0x3F16	; 0x803f16 <buttonFrameCounter>
+ 68e:	8f 5f       	subi	r24, 0xFF	; 255
+ 690:	80 93 16 3f 	sts	0x3F16, r24	; 0x803f16 <buttonFrameCounter>
+      if (prepareState == PREPARE_READY) {
+ 694:	80 91 19 3f 	lds	r24, 0x3F19	; 0x803f19 <prepareState>
+ 698:	82 30       	cpi	r24, 0x02	; 2
+ 69a:	51 f1       	breq	.+84     	; 0x6f0 <__vector_8+0x96>
+        }
+        prepareState = PREPARE_REQUEST;
+      }
+    }
+  }
+  TCA0_SINGLE_CNT = bamTimerValueList[bamStepTimerValueIndex];
+ 69c:	e0 91 18 3f 	lds	r30, 0x3F18	; 0x803f18 <bamStepTimerValueIndex>
+ 6a0:	f0 e0       	ldi	r31, 0x00	; 0
+ 6a2:	ee 0f       	add	r30, r30
+ 6a4:	ff 1f       	adc	r31, r31
+ 6a6:	e4 55       	subi	r30, 0x54	; 84
+ 6a8:	f8 47       	sbci	r31, 0x78	; 120
+ 6aa:	80 81       	ld	r24, Z
+ 6ac:	91 81       	ldd	r25, Z+1	; 0x01
+ 6ae:	80 93 20 0a 	sts	0x0A20, r24	; 0x800a20 <__RODATA_PM_OFFSET__+0x7f8a20>
+ 6b2:	90 93 21 0a 	sts	0x0A21, r25	; 0x800a21 <__RODATA_PM_OFFSET__+0x7f8a21>
+  VPORTA.OUT = bamOutputMaskActiveBuffer[bamStepTimerValueIndex];
+ 6b6:	e0 91 18 3f 	lds	r30, 0x3F18	; 0x803f18 <bamStepTimerValueIndex>
+ 6ba:	f0 e0       	ldi	r31, 0x00	; 0
+ 6bc:	e8 5f       	subi	r30, 0xF8	; 248
+ 6be:	f0 4c       	sbci	r31, 0xC0	; 192
+ 6c0:	80 81       	ld	r24, Z
+ 6c2:	81 b9       	out	0x01, r24	; 1
+  bamStepTimerValueIndex++;
+ 6c4:	80 91 18 3f 	lds	r24, 0x3F18	; 0x803f18 <bamStepTimerValueIndex>
+ 6c8:	8f 5f       	subi	r24, 0xFF	; 255
+ 6ca:	80 93 18 3f 	sts	0x3F18, r24	; 0x803f18 <bamStepTimerValueIndex>
+  TCA0_SINGLE_INTFLAGS = TCA_SINGLE_OVF_bm;
+ 6ce:	81 e0       	ldi	r24, 0x01	; 1
+ 6d0:	80 93 0b 0a 	sts	0x0A0B, r24	; 0x800a0b <__RODATA_PM_OFFSET__+0x7f8a0b>
+ 6d4:	ff 91       	pop	r31
+ 6d6:	ef 91       	pop	r30
+ 6d8:	bf 91       	pop	r27
+ 6da:	af 91       	pop	r26
+ 6dc:	9f 91       	pop	r25
+ 6de:	8f 91       	pop	r24
+ 6e0:	1f 90       	pop	r1
+ 6e2:	0f 90       	pop	r0
+ 6e4:	0f be       	out	0x3f, r0	; 63
+ 6e6:	0f 90       	pop	r0
+ 6e8:	18 95       	reti
+}
+
+ISR(TCA0_OVF_vect) {
+  if (bamStepTimerValueIndex >= (uint8_t)BAM_RESOLUTION_MAX) {
+    bamStepTimerValueIndex = 0u;
+    if (++bamCyclesCounter >= CYCLES_PER_FRAME) {
+ 6ea:	80 93 14 3f 	sts	0x3F14, r24	; 0x803f14 <bamCyclesCounter>
+ 6ee:	d6 cf       	rjmp	.-84     	; 0x69c <__vector_8+0x42>
+      bamCyclesCounter = 0;
+      buttonFrameCounter++;
+      if (prepareState == PREPARE_READY) {
+        VPORTA.OUT = bamOutputMaskPrepareBuffer[bamStepTimerValueIndex];
+ 6f0:	e0 91 18 3f 	lds	r30, 0x3F18	; 0x803f18 <bamStepTimerValueIndex>
+ 6f4:	f0 e0       	ldi	r31, 0x00	; 0
+ 6f6:	e0 50       	subi	r30, 0x00	; 0
+ 6f8:	f1 4c       	sbci	r31, 0xC1	; 193
+ 6fa:	80 81       	ld	r24, Z
+ 6fc:	81 b9       	out	0x01, r24	; 1
+ 6fe:	88 e0       	ldi	r24, 0x08	; 8
+ 700:	e0 e0       	ldi	r30, 0x00	; 0
+ 702:	ff e3       	ldi	r31, 0x3F	; 63
+ 704:	a8 e0       	ldi	r26, 0x08	; 8
+ 706:	bf e3       	ldi	r27, 0x3F	; 63
+ 708:	01 90       	ld	r0, Z+
+ 70a:	0d 92       	st	X+, r0
+ 70c:	8a 95       	dec	r24
+ 70e:	e1 f7       	brne	.-8      	; 0x708 <__vector_8+0xae>
+        for (uint8_t i = 0u; i < (uint8_t)BAM_RESOLUTION_MAX; i++) {
+          bamOutputMaskActiveBuffer[i] = bamOutputMaskPrepareBuffer[i];
+        }
+        prepareState = PREPARE_REQUEST;
+ 710:	81 e0       	ldi	r24, 0x01	; 1
+ 712:	80 93 19 3f 	sts	0x3F19, r24	; 0x803f19 <prepareState>
+ 716:	c2 cf       	rjmp	.-124    	; 0x69c <__vector_8+0x42>
+
+Disassembly of section .text.__dummy_fini:
+
+000007e4 <_fini>:
+ 7e4:	08 95       	ret
+
+Disassembly of section .text.__dummy_funcs_on_exit:
+
+000007e6 <__funcs_on_exit>:
+ 7e6:	08 95       	ret
+
+Disassembly of section .text.__dummy_simulator_exit:
+
+000007e8 <__simulator_exit>:
+ 7e8:	08 95       	ret
+
+Disassembly of section .text.exit:
+
+000007cc <exit>:
+ 7cc:	ec 01       	movw	r28, r24
+ 7ce:	0b d0       	rcall	.+22     	; 0x7e6 <__funcs_on_exit>
+ 7d0:	09 d0       	rcall	.+18     	; 0x7e4 <_fini>
+ 7d2:	ce 01       	movw	r24, r28
+ 7d4:	09 d0       	rcall	.+18     	; 0x7e8 <__simulator_exit>
+ 7d6:	ce 01       	movw	r24, r28
+ 7d8:	08 d0       	rcall	.+16     	; 0x7ea <_Exit>
+
+Disassembly of section .text._Exit:
+
+000007ea <_Exit>:
+ 7ea:	50 dc       	rcall	.-1888   	; 0x8c <_exit>
+
+Disassembly of section .text.avrlibc:
+
+000007bc <eeprom_read_byte>:
+ 7bc:	03 d0       	rcall	.+6      	; 0x7c4 <eeprom_mapen>
+ 7be:	80 81       	ld	r24, Z
+ 7c0:	99 27       	eor	r25, r25
+ 7c2:	08 95       	ret
+
+000007c4 <eeprom_mapen>:
+ 7c4:	fc 01       	movw	r30, r24
+ 7c6:	e0 50       	subi	r30, 0x00	; 0
+ 7c8:	fc 4e       	sbci	r31, 0xEC	; 236
+ 7ca:	08 95       	ret
+
+Disassembly of section .text.avrlibc:
+
+00000796 <eeprom_update_byte>:
+ 796:	26 2f       	mov	r18, r22
+
+00000798 <eeprom_update_r18>:
+ 798:	0e 94 e2 03 	call	0x7c4	; 0x7c4 <eeprom_mapen>
+ 79c:	00 80       	ld	r0, Z
+ 79e:	02 16       	cp	r0, r18
+ 7a0:	19 f0       	breq	.+6      	; 0x7a8 <eeprom_update_r18+0x10>
+ 7a2:	0e 94 b8 03 	call	0x770	; 0x770 <eeprom_write_r18>
+ 7a6:	01 97       	sbiw	r24, 0x01	; 1
+ 7a8:	01 97       	sbiw	r24, 0x01	; 1
+ 7aa:	08 95       	ret
+
+Disassembly of section .text.avrlibc:
+
+0000076e <eeprom_write_byte>:
+ 76e:	26 2f       	mov	r18, r22
+
+00000770 <eeprom_write_r18>:
+ 770:	af 93       	push	r26
+ 772:	bf 93       	push	r27
+ 774:	e0 e0       	ldi	r30, 0x00	; 0
+ 776:	f0 e1       	ldi	r31, 0x10	; 16
+ 778:	32 81       	ldd	r19, Z+2	; 0x02
+ 77a:	31 fd       	sbrc	r19, 1
+ 77c:	fd cf       	rjmp	.-6      	; 0x778 <eeprom_write_r18+0x8>
+ 77e:	dc 01       	movw	r26, r24
+ 780:	a0 50       	subi	r26, 0x00	; 0
+ 782:	bc 4e       	sbci	r27, 0xEC	; 236
+ 784:	2c 93       	st	X, r18
+ 786:	3d e9       	ldi	r19, 0x9D	; 157
+ 788:	34 bf       	out	0x34, r19	; 52
+ 78a:	23 e0       	ldi	r18, 0x03	; 3
+ 78c:	20 83       	st	Z, r18
+ 78e:	01 96       	adiw	r24, 0x01	; 1
+ 790:	bf 91       	pop	r27
+ 792:	af 91       	pop	r26
+ 794:	08 95       	ret
