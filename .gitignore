@@ -1,0 +1,46 @@
+# ---- Build artefacts ----
+build/
+Build/
+bin/
+obj/
+out/
+*.o
+*.obj
+*.elf
+*.map
+*.hex
+*.bin
+*.lst
+*.d
+*.a
+*.lib
+*.exe
+
+# ---- CMake ----
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# ---- VS Code ----
+.vscode/
+.history/
+*.code-workspace
+
+# ---- Editor / OS ----
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+*.DS_Store
+Thumbs.db
+
+# ---- Generated / Intermediate ----
+*.generated.*
+*.dep
+*.dmp
+
+# ---- Exclude build configs ----
+Debug/
+Release/
