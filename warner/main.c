@@ -2,12 +2,15 @@
  * main.c
  *
  *  Author: MrReinsch
- * 
- * This firmware drives a 5-LED warning panel using an ATtiny202.  
- * It implements 8-bit Bit-Angle-Modulation (BAM) for smooth brightness control, producing ~27 FPS sequences stored in PROGMEM.  
- * A single button cycles between left, mid, and right light patterns (short press) or opens a timeout configuration menu (long press).  
- * Timeout settings are saved to EEPROM, and the whole system runs from the internal 20 MHz RC oscillator using a single TCA0 timer for PWM and timing.
- * 
+ *
+ * This firmware drives a 5-LED warning panel using an ATtiny202.
+ * It implements 8-bit Bit-Angle-Modulation (BAM) for smooth brightness control,
+ * producing ~27 FPS sequences stored in PROGMEM. A single button cycles between
+ * left, mid, and right light patterns (short press) or opens a timeout
+ * configuration menu (long press). Timeout settings are saved to EEPROM, and
+ * the whole system runs from the internal 20 MHz RC oscillator using a single
+ * TCA0 timer for PWM and timing.
+ *
  */
 
 #include "avr/eeprom.h"
@@ -17,381 +20,390 @@
 #include <xc.h>
 
 // BSP
-#define PA0_MASK (0x01u)
-#define PORT_IN_MASK (PA0_MASK)
-#define PA1_MASK (0x02u) // lef
-#define PA2_MASK (0x04u) // left mid
-#define PA3_MASK (0x08u) // right
-#define PA6_MASK (0x40u) // right mid
-#define PA7_MASK (0x80u) // Top
+#define WARN_PA0_MASK (0x01u)
+#define WARN_PA1_MASK (0x02u) // lef
+#define WARN_PA2_MASK (0x04u) // left mid
+#define WARN_PA3_MASK (0x08u) // right
+#define WARN_PA6_MASK (0x40u) // right mid
+#define WARN_PA7_MASK (0x80u) // Top
 
 // Timer / BAM
-#define FRAMES_PER_SECOND (28u)
-#define BAM_BIT_0_DURATION (20u) // ~1.2us*20
-#define BAM_BIT_1_DURATION (BAM_BIT_0_DURATION * 2u)
-#define BAM_BIT_2_DURATION (BAM_BIT_0_DURATION * 4u)
-#define BAM_BIT_3_DURATION (BAM_BIT_0_DURATION * 8u)
-#define BAM_BIT_4_DURATION (BAM_BIT_0_DURATION * 16u)
-#define BAM_BIT_5_DURATION (BAM_BIT_0_DURATION * 32u)
-#define BAM_BIT_6_DURATION (BAM_BIT_0_DURATION * 64u)
-#define BAM_BIT_7_DURATION (BAM_BIT_0_DURATION * 128u)
+#define WARN_BAM_BIT_0_DURATION (20u) // ~1.2us*20
+#define WARN_BAM_BIT_1_DURATION (WARN_BAM_BIT_0_DURATION * 2u)
+#define WARN_BAM_BIT_2_DURATION (WARN_BAM_BIT_0_DURATION * 4u)
+#define WARN_BAM_BIT_3_DURATION (WARN_BAM_BIT_0_DURATION * 8u)
+#define WARN_BAM_BIT_4_DURATION (WARN_BAM_BIT_0_DURATION * 16u)
+#define WARN_BAM_BIT_5_DURATION (WARN_BAM_BIT_0_DURATION * 32u)
+#define WARN_BAM_BIT_6_DURATION (WARN_BAM_BIT_0_DURATION * 64u)
+#define WARN_BAM_BIT_7_DURATION (WARN_BAM_BIT_0_DURATION * 128u)
 
-#define TIMER_MAX_VALUE (0xFFFFu)
-#define BAM_BIT_0_VALUE (TIMER_MAX_VALUE - BAM_BIT_0_DURATION)
-#define BAM_BIT_1_VALUE (TIMER_MAX_VALUE - BAM_BIT_1_DURATION)
-#define BAM_BIT_2_VALUE (TIMER_MAX_VALUE - BAM_BIT_2_DURATION)
-#define BAM_BIT_3_VALUE (TIMER_MAX_VALUE - BAM_BIT_3_DURATION)
-#define BAM_BIT_4_VALUE (TIMER_MAX_VALUE - BAM_BIT_4_DURATION)
-#define BAM_BIT_5_VALUE (TIMER_MAX_VALUE - BAM_BIT_5_DURATION)
-#define BAM_BIT_6_VALUE (TIMER_MAX_VALUE - BAM_BIT_6_DURATION)
-#define BAM_BIT_7_VALUE (TIMER_MAX_VALUE - BAM_BIT_7_DURATION)
+#define WARN_TIMER_MAX_VALUE (0xFFFFu)
+#define WARN_BAM_BIT_0_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_0_DURATION)
+#define WARN_BAM_BIT_1_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_1_DURATION)
+#define WARN_BAM_BIT_2_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_2_DURATION)
+#define WARN_BAM_BIT_3_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_3_DURATION)
+#define WARN_BAM_BIT_4_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_4_DURATION)
+#define WARN_BAM_BIT_5_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_5_DURATION)
+#define WARN_BAM_BIT_6_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_6_DURATION)
+#define WARN_BAM_BIT_7_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_7_DURATION)
 
-#define BAM_RESOLUTION_MAX (8u)
-#define BAM_OUTPUT_MASK_BUFFERS_MAX (2u)
-#define BAM_REPETITION_CYCLES_PER_FRAME (6u)
+#define WARN_BAM_RESOLUTION_MAX (8u)
+#define WARN_BAM_OUTPUT_MASK_BUFFERS_MAX (2u)
+#define WARN_BAM_REPETITION_CYCLES_PER_FRAME (6u)
 
 // Convert to GPIO Masks
-#define NUM_OF_LEDS (5u)
-#define LED_RIGHT_BIT_MASK (PA1_MASK)
-#define LED_LEFT_BIT_MASK (PA2_MASK)
-#define LED_LEFT_MID_BIT_MASK (PA6_MASK)
-#define LED_RIGHT_MID_BIT_MASK (PA3_MASK)
-#define LED_TOP_BIT_MASK (PA7_MASK)
+#define WARN_NUM_OF_LEDS (5u)
+#define WARN_LED_RIGHT_BIT_MASK (WARN_PA1_MASK)
+#define WARN_LED_LEFT_BIT_MASK (WARN_PA2_MASK)
+#define WARN_LED_LEFT_MID_BIT_MASK (WARN_PA6_MASK)
+#define WARN_LED_RIGHT_MID_BIT_MASK (WARN_PA3_MASK)
+#define WARN_LED_TOP_BIT_MASK (WARN_PA7_MASK)
 
-#define FRAMES_PER_SEQUENCE (56u)
-#define FRAMES_PER_SEQUENCE_MASK (FRAMES_PER_SEQUENCE - 1u)
-
-#define BUTTON_LONG_PRESS_COUNTER_VALUE (200u)
-#define BUTTON_SHORT_PRESS_COUNTER_VALUE (3u)
-
-#define TIMEOUT_LIMIT_OFF (0u)
-#define TIMEOUT_LIMIT_120S (60u)
-#define TIMEOUT_LIMIT_MAX (240u)
+#define WARN_FRAMES_PER_SEQUENCE (56u)
+#define WARN_FRAMES_PER_SEQUENCE_MASK (FRAMES_PER_SEQUENCE - 1u)
 
 typedef enum {
-  SEQUENCE_OFF = 0,
-  SEQUENCE_LEFT,
-  SEQUENCE_MID,
-  SEQUENCE_RIGHT,
-  SEQUENCE_MAX,
-  SEQUENCE_MASK = SEQUENCE_MAX - 1u,
-  SEQUENCE_TIMEOUT = SEQUENCE_MASK + 1u,
-} sequence_state_t;
+  WARN_SEQUENCE_OFF = 0,
+  WARN_SEQUENCE_LEFT,
+  WARN_SEQUENCE_MID,
+  WARN_SEQUENCE_RIGHT,
+  WARN_SEQUENCE_MAX,
+  WARN_SEQUENCE_MASK = WARN_SEQUENCE_MAX - 1u,
+  WARN_SEQUENCE_TIMEOUT = WARN_SEQUENCE_MASK + 1u,
+} WARN_sequence_state_t;
 
 typedef enum {
-  TIMEOUT_OFF = 0u,
-  TIMEOUT_120S = 1u,
-  TIMEOUT_MAX = 2u,
-} timeout_setting_t;
+  WARN_TIMEOUT_OFF = 0u,
+  WARN_TIMEOUT_120S = 1u,
+  WARN_TIMEOUT_MAX = 2u,
+} WARN_timeout_setting_t;
 
 typedef enum {
-  PREPARE_BLOCKED = 0,
-  PREPARE_REQUEST = 1,
-  PREPARE_READY = 2
-} prepare_state_t;
+  WARN_TIMEOUT_LIMIT_OFF = 0u,
+  WARN_TIMEOUT_LIMIT_120S = 120u,
+  WARN_TIMEOUT_LIMIT_MAX = 240u,
+} WARN_timeout_limit_t;
 
 typedef enum {
-  BUTTON_IO_UNPRESSED = 0,
-  BUTTON_IO_DOWN = 1,
-  BUTTON_IO_LOCKED = 2,
-} button_io_state_t;
+  WARN_PREPARE_BLOCKED = 0u,
+  WARN_PREPARE_REQUEST = 1u,
+  WARN_PREPARE_READY = 2u
+} WARN_prepare_state_t;
 
 typedef enum {
-  BUTTON_UNPRESSED = 0,
-  BUTTON_SHORT_PRESS = 1,
-  BUTTON_LONG_PRESS = 2,
-} button_event_t;
+  WARN_BUTTON_IO_UNPRESSED = 0u,
+  WARN_BUTTON_IO_DOWN = 1u,
+  WARN_BUTTON_IO_LOCKED = 2u,
+} WARN_button_io_state_t;
 
+typedef enum {
+  WARN_BUTTON_UNPRESSED = 0u,
+  WARN_BUTTON_SHORT_PRESS = 1u,
+  WARN_BUTTON_LONG_PRESS = 2u,
+} WARN_button_event_t;
+
+typedef enum {
+  WARN_BUTTON_LONG_PRESS_VALUE = 200u,
+  WARN_BUTTON_SHORT_PRESS_VALUE = 3u,
+} WARN_button_press_values_t;
+
+// clang-format off
 // TOP, LEFT, MID LEFT, RIGHT, RIGHT MID
-const uint8_t sequenceLeftLedValues[FRAMES_PER_SEQUENCE][NUM_OF_LEDS] PROGMEM =
-    {
-        {128u, 0u, 0u, 0u, 0u}, 
-        {128u, 0u, 0u, 0u, 0u}, 
-        {255u, 0u, 0u, 0u, 0u}, 
-        {255u, 0u, 0u, 0u, 0u}, 
-        {255u, 0u, 0u, 0u, 0u}, 
-        {255u, 0u, 0u, 0u, 0u}, 
-        {255u, 0u, 0u, 0u, 0u}, 
-        {128u, 0u, 0u, 0u, 0u}, 
-        //
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        //
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        //
-        {0u, 16u, 16u, 0u, 0u},
-        {0u, 16u, 16u, 0u, 0u},
-        {0u, 32u, 34u, 0u, 0u},
-        {0u, 32u, 32u, 0u, 0u},
-        {0u, 48u, 48u, 0u, 0u},
-        {0u, 64u, 64u, 0u, 0u},
-        {0u, 64u, 64u, 0u, 0u},
-        {0u, 96u, 96u, 0u, 0u},
-        // 32
-        {0u, 96u, 96u, 0u, 0u},  
-        {0u, 128u, 128u, 0u, 0u},
-        {0u, 128u, 128u, 0u, 0u},
-        {0u, 144u, 144u, 0u, 0u},
-        {0u, 164u, 164u, 0u, 0u},
-        {0u, 164u, 164u, 0u, 0u},
-        {0u, 196u, 196u, 0u, 0u},
-        {0u, 196u, 196u, 0u, 0u},
-        //
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        //
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
-        {0u, 255u, 255u, 0u, 0u},
+const uint8_t WARN_sequenceLeftLedValues[WARN_FRAMES_PER_SEQUENCE][WARN_NUM_OF_LEDS] PROGMEM = {
+  {128u, 0u, 0u, 0u, 0u},
+  {128u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {128u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 16u, 16u, 0u, 0u},
+  {0u, 16u, 16u, 0u, 0u},
+  {0u, 32u, 34u, 0u, 0u},
+  {0u, 32u, 32u, 0u, 0u},
+  {0u, 48u, 48u, 0u, 0u},
+  {0u, 64u, 64u, 0u, 0u},
+  {0u, 64u, 64u, 0u, 0u},
+  {0u, 96u, 96u, 0u, 0u},
+  // 32
+  {0u, 96u, 96u, 0u, 0u},
+  {0u, 128u, 128u, 0u, 0u},
+  {0u, 128u, 128u, 0u, 0u},
+  {0u, 144u, 144u, 0u, 0u},
+  {0u, 164u, 164u, 0u, 0u},
+  {0u, 164u, 164u, 0u, 0u},
+  {0u, 196u, 196u, 0u, 0u},
+  {0u, 196u, 196u, 0u, 0u},
+  //
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  //
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
+  {0u, 255u, 255u, 0u, 0u},
 };
 
-const uint8_t sequenceMidLedValues[FRAMES_PER_SEQUENCE][NUM_OF_LEDS] PROGMEM = {
-    {128u, 0u, 0u, 0u, 0u},
-    {128u, 0u, 0u, 0u, 0u},
-    {255u, 0u, 0u, 0u, 0u},
-    {255u, 0u, 0u, 0u, 0u},
-    {255u, 0u, 0u, 0u, 0u},
-    {255u, 0u, 0u, 0u, 0u},
-    {255u, 0u, 0u, 0u, 0u},
-    {128u, 0u, 0u, 0u, 0u},
-    //
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    //
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    {0u, 0u, 0u, 0u, 0u},
-    //
-    {0u, 0u, 16u, 0u, 16u},
-    {0u, 0u, 16u, 0u, 16u},
-    {0u, 0u, 32u, 0u, 34u},
-    {0u, 0u, 32u, 0u, 32u},
-    {0u, 0u, 48u, 0u, 48u},
-    {0u, 0u, 64u, 0u, 64u},
-    {0u, 0u, 64u, 0u, 64u},
-    {0u, 0u, 96u, 0u, 96u},
-    //
-    {0u, 0u, 96u, 0u, 96u},  
-    {0u, 0u, 128u, 0u, 128u},
-    {0u, 0u, 128u, 0u, 128u},
-    {0u, 0u, 144u, 0u, 144u},
-    {0u, 0u, 164u, 0u, 164u},
-    {0u, 0u, 164u, 0u, 164u},
-    {0u, 0u, 196u, 0u, 196u},
-    {0u, 0u, 196u, 0u, 196u},
-    //
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    //
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
-    {0u, 0u, 255u, 0u, 255u},
+const uint8_t WARN_sequenceMidLedValues[WARN_FRAMES_PER_SEQUENCE][WARN_NUM_OF_LEDS] PROGMEM = {
+  {128u, 0u, 0u, 0u, 0u},
+  {128u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {128u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 16u, 0u, 16u},
+  {0u, 0u, 16u, 0u, 16u},
+  {0u, 0u, 32u, 0u, 34u},
+  {0u, 0u, 32u, 0u, 32u},
+  {0u, 0u, 48u, 0u, 48u},
+  {0u, 0u, 64u, 0u, 64u},
+  {0u, 0u, 64u, 0u, 64u},
+  {0u, 0u, 96u, 0u, 96u},
+  //
+  {0u, 0u, 96u, 0u, 96u},
+  {0u, 0u, 128u, 0u, 128u},
+  {0u, 0u, 128u, 0u, 128u},
+  {0u, 0u, 144u, 0u, 144u},
+  {0u, 0u, 164u, 0u, 164u},
+  {0u, 0u, 164u, 0u, 164u},
+  {0u, 0u, 196u, 0u, 196u},
+  {0u, 0u, 196u, 0u, 196u},
+  //
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  //
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
+  {0u, 0u, 255u, 0u, 255u},
 };
 
-const uint8_t sequenceRightLedValues[FRAMES_PER_SEQUENCE][NUM_OF_LEDS] PROGMEM =
-    {
-        {128u, 0u, 0u, 0u, 0u},
-        {128u, 0u, 0u, 0u, 0u},
-        {255u, 0u, 0u, 0u, 0u},
-        {255u, 0u, 0u, 0u, 0u},
-        {255u, 0u, 0u, 0u, 0u},
-        {255u, 0u, 0u, 0u, 0u},
-        {255u, 0u, 0u, 0u, 0u},
-        {128u, 0u, 0u, 0u, 0u},
-        //
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        //
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        {0u, 0u, 0u, 0u, 0u},
-        //
-        {0u, 0u, 0u, 16u, 16u},
-        {0u, 0u, 0u, 16u, 16u},
-        {0u, 0u, 0u, 32u, 34u},
-        {0u, 0u, 0u, 32u, 32u},
-        {0u, 0u, 0u, 48u, 48u},
-        {0u, 0u, 0u, 64u, 64u},
-        {0u, 0u, 0u, 64u, 64u},
-        {0u, 0u, 0u, 96u, 96u},
-        //
-        {0u, 0u, 0u, 96u, 96u},  
-        {0u, 0u, 0u, 128u, 128u},
-        {0u, 0u, 0u, 128u, 128u},
-        {0u, 0u, 0u, 144u, 144u},
-        {0u, 0u, 0u, 164u, 164u},
-        {0u, 0u, 0u, 164u, 164u},
-        {0u, 0u, 0u, 196u, 196u},
-        {0u, 0u, 0u, 196u, 196u},
-        //
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        //
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
-        {0u, 0u, 0u, 255u, 255u},
+const uint8_t WARN_sequenceRightLedValues[WARN_FRAMES_PER_SEQUENCE][WARN_NUM_OF_LEDS] PROGMEM = {
+  {128u, 0u, 0u, 0u, 0u},
+  {128u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {255u, 0u, 0u, 0u, 0u},
+  {128u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  {0u, 0u, 0u, 0u, 0u},
+  //
+  {0u, 0u, 0u, 16u, 16u},
+  {0u, 0u, 0u, 16u, 16u},
+  {0u, 0u, 0u, 32u, 34u},
+  {0u, 0u, 0u, 32u, 32u},
+  {0u, 0u, 0u, 48u, 48u},
+  {0u, 0u, 0u, 64u, 64u},
+  {0u, 0u, 0u, 64u, 64u},
+  {0u, 0u, 0u, 96u, 96u},
+  //
+  {0u, 0u, 0u, 96u, 96u},
+  {0u, 0u, 0u, 128u, 128u},
+  {0u, 0u, 0u, 128u, 128u},
+  {0u, 0u, 0u, 144u, 144u},
+  {0u, 0u, 0u, 164u, 164u},
+  {0u, 0u, 0u, 164u, 164u},
+  {0u, 0u, 0u, 196u, 196u},
+  {0u, 0u, 0u, 196u, 196u},
+  //
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  //
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
+  {0u, 0u, 0u, 255u, 255u},
 };
 
-static const uint16_t bamTimerValueList[] = {
-    (uint16_t)BAM_BIT_7_VALUE, (uint16_t)BAM_BIT_6_VALUE,
-    (uint16_t)BAM_BIT_5_VALUE, (uint16_t)BAM_BIT_4_VALUE,
-    (uint16_t)BAM_BIT_3_VALUE, (uint16_t)BAM_BIT_2_VALUE,
-    (uint16_t)BAM_BIT_1_VALUE, (uint16_t)BAM_BIT_0_VALUE,
+static const uint16_t WARN_bamTimerValueList[] = {
+  (uint16_t)WARN_BAM_BIT_7_VALUE,
+  (uint16_t)WARN_BAM_BIT_6_VALUE,
+  (uint16_t)WARN_BAM_BIT_5_VALUE,
+  (uint16_t)WARN_BAM_BIT_4_VALUE,
+  (uint16_t)WARN_BAM_BIT_3_VALUE,
+  (uint16_t)WARN_BAM_BIT_2_VALUE,
+  (uint16_t)WARN_BAM_BIT_1_VALUE,
+  (uint16_t)WARN_BAM_BIT_0_VALUE,
 };
 
-typedef const uint8_t (*sequence_t)[NUM_OF_LEDS];
+typedef const uint8_t (*WARN_sequence_t)[WARN_NUM_OF_LEDS];
 
-static const sequence_t sequencePointerLut[] = {
-    sequenceLeftLedValues, sequenceLeftLedValues, sequenceMidLedValues,
-    sequenceRightLedValues};
+static const WARN_sequence_t WARN_sequencePointerLut[] = {
+  WARN_sequenceLeftLedValues,
+  WARN_sequenceLeftLedValues,
+  WARN_sequenceMidLedValues,
+  WARN_sequenceRightLedValues};
+// clang-format on
 
-static uint8_t bamOutputMaskActiveBuffer[BAM_RESOLUTION_MAX] = {0};
-static uint8_t bamOutputMaskPrepareBuffer[BAM_RESOLUTION_MAX] = {0};
-static volatile prepare_state_t prepareState = PREPARE_REQUEST;
-static volatile uint8_t bamStepTimerValueIndex = 0u;
-static button_io_state_t buttonIoState = BUTTON_IO_UNPRESSED;
-static volatile uint8_t buttonFrameCounter = 0u;
-static uint8_t buttonFrameCounterSnapShot = 0u;
-static uint8_t bamRepetionCycleCounter = 0u;
-static uint16_t timeoutCounter = 0u;
-static timeout_setting_t timeoutSetting;
-static uint8_t timeoutCounterLimit = 0u;
-timeout_setting_t eeTimeoutSetting EEMEM = TIMEOUT_MAX;
+static uint8_t WARN_bamOutputMaskActiveBuffer[WARN_BAM_RESOLUTION_MAX];
+static uint8_t WARN_bamOutputMaskPrepareBuffer[WARN_BAM_RESOLUTION_MAX];
+static volatile WARN_prepare_state_t WARN_prepareState = WARN_PREPARE_REQUEST;
+static volatile uint8_t WARN_bamStepTimerValueIndex;
+static WARN_button_io_state_t WARN_buttonIoState;
+static volatile uint8_t WARN_buttonFrameCounter;
+static uint8_t WARN_buttonFrameCounterSnapShot;
+static uint8_t WARN_bamRepetionCycleCounter;
+static uint16_t WARN_timeoutCounter;
+static WARN_timeout_setting_t WARN_timeoutSetting;
+static uint8_t WARN_timeoutLimit;
 
-static uint8_t getTimeoutCounterLimit(timeout_setting_t setting) {
-  if (setting == (uint8_t)TIMEOUT_OFF) {
-    return TIMEOUT_LIMIT_OFF;
+WARN_timeout_setting_t WARN_eeTimeoutSetting EEMEM = WARN_TIMEOUT_MAX;
+
+static WARN_timeout_limit_t getTimeoutCounterLimit(WARN_timeout_setting_t setting) {
+  if (setting == WARN_TIMEOUT_OFF) {
+    return WARN_TIMEOUT_LIMIT_OFF;
   }
-  if (setting == (uint8_t)TIMEOUT_120S) {
-    return (uint8_t)TIMEOUT_LIMIT_120S;
+  if (setting == WARN_TIMEOUT_120S) {
+    return WARN_TIMEOUT_LIMIT_120S;
   }
-  return (uint8_t)TIMEOUT_LIMIT_MAX;
+  return WARN_TIMEOUT_LIMIT_MAX;
 }
 
 static inline void init(void) {
-  PORTA_DIR = (uint8_t)(PA1_MASK | PA2_MASK | PA3_MASK | PA6_MASK | PA7_MASK);
+  PORTA_DIR = (uint8_t)(WARN_PA1_MASK | WARN_PA2_MASK | WARN_PA3_MASK | WARN_PA6_MASK | WARN_PA7_MASK);
   PORTA_PIN0CTRL = PORT_PULLUPEN_bm;
   VPORTA.OUT = 0u;
   TCA0_SINGLE_CTRLB = 0u;
   TCA0_SINGLE_CTRLC = 0u;
   TCA0_SINGLE_CTRLD = 0u;
   TCA0_SINGLE_INTCTRL = TCA_SINGLE_OVF_bm;
-  TCA0_SINGLE_CNT = (uint16_t)BAM_BIT_0_VALUE;
-  TCA0_SINGLE_PER = (uint16_t)TIMER_MAX_VALUE;
+  TCA0_SINGLE_CNT = (uint16_t)WARN_BAM_BIT_0_VALUE;
+  TCA0_SINGLE_PER = (uint16_t)WARN_TIMER_MAX_VALUE;
   TCA0_SINGLE_CTRLA = TCA_SINGLE_ENABLE_bm | TCA_SINGLE_CLKSEL_DIV4_gc;
-  timeoutSetting = (timeout_setting_t)eeprom_read_byte(&eeTimeoutSetting);
-  timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+  WARN_timeoutSetting = (WARN_timeout_setting_t)eeprom_read_byte(&WARN_eeTimeoutSetting);
+  WARN_timeoutLimit = getTimeoutCounterLimit(WARN_timeoutSetting);
 }
 
 static inline void setPrepareStateReadySafe(void) {
   uint8_t s = SREG;
   cli();
-  prepareState = PREPARE_READY;
+  WARN_prepareState = WARN_PREPARE_READY;
   SREG = s;
 }
 
 static inline void setPrepareStatePrepareRequestSafe(void) {
   uint8_t s = SREG;
   cli();
-  prepareState = PREPARE_REQUEST;
+  WARN_prepareState = WARN_PREPARE_REQUEST;
   SREG = s;
 }
 
-static inline void buildFrame(const uint8_t *value, uint8_t forceOff) {
-  for (uint8_t b = 0u; b < BAM_RESOLUTION_MAX; b++) {
+static inline void buildFrame(const uint8_t* value, uint8_t forceOff) {
+  for (uint8_t b = 0u; b < WARN_BAM_RESOLUTION_MAX; b++) {
     uint8_t m = 0u;
     uint8_t buffer = pgm_read_byte(&value[0]);
     if (buffer & (1u << b)) {
-      m |= LED_TOP_BIT_MASK;
+      m |= WARN_LED_TOP_BIT_MASK;
     }
     buffer = pgm_read_byte(&value[1]);
     if (buffer & (1u << b)) {
-      m |= LED_LEFT_BIT_MASK;
+      m |= WARN_LED_LEFT_BIT_MASK;
     }
     buffer = pgm_read_byte(&value[2]);
     if (buffer & (1u << b)) {
-      m |= LED_LEFT_MID_BIT_MASK;
+      m |= WARN_LED_LEFT_MID_BIT_MASK;
     }
     buffer = pgm_read_byte(&value[3]);
     if (buffer & (1u << b)) {
-      m |= LED_RIGHT_BIT_MASK;
+      m |= WARN_LED_RIGHT_BIT_MASK;
     }
     buffer = pgm_read_byte(&value[4]);
     if (buffer & (1u << b)) {
-      m |= LED_RIGHT_MID_BIT_MASK;
+      m |= WARN_LED_RIGHT_MID_BIT_MASK;
     }
-    if (forceOff == SEQUENCE_OFF) {
+    if (forceOff == WARN_SEQUENCE_OFF) {
       m = 0u;
     }
-    bamOutputMaskPrepareBuffer[(BAM_RESOLUTION_MAX - 1u) - b] = m;
+    WARN_bamOutputMaskPrepareBuffer[(WARN_BAM_RESOLUTION_MAX - 1u) - b] = m;
   }
 }
 
@@ -400,59 +412,66 @@ static inline uint8_t getAbsoluteDelta(uint8_t a, uint8_t b) {
 }
 
 static inline uint8_t isButtonPressed(void) {
-  return (VPORTA.IN & PA0_MASK) == 0u;
+  return (VPORTA.IN & WARN_PA0_MASK) == 0u;
 }
 
-static button_event_t buttonHandler(void) {
-  if (buttonIoState == BUTTON_IO_UNPRESSED) {
+static WARN_button_event_t buttonHandler(void) {
+  if (WARN_buttonIoState == WARN_BUTTON_IO_UNPRESSED) {
     if (isButtonPressed()) {
-      buttonIoState = BUTTON_IO_DOWN;
-      buttonFrameCounterSnapShot = buttonFrameCounter;
+      WARN_buttonIoState = WARN_BUTTON_IO_DOWN;
+      WARN_buttonFrameCounterSnapShot = WARN_buttonFrameCounter;
     }
-  } else if (buttonIoState == BUTTON_IO_LOCKED) {
+  } else if (WARN_buttonIoState == WARN_BUTTON_IO_LOCKED) {
     if (!isButtonPressed()) {
-      buttonIoState = BUTTON_IO_UNPRESSED;
+      WARN_buttonIoState = WARN_BUTTON_IO_UNPRESSED;
     }
   } else {
-    uint8_t delta =
-        getAbsoluteDelta(buttonFrameCounter, buttonFrameCounterSnapShot);
+    uint8_t delta = getAbsoluteDelta(WARN_buttonFrameCounter, WARN_buttonFrameCounterSnapShot);
     if (isButtonPressed()) {
-      if (delta > BUTTON_LONG_PRESS_COUNTER_VALUE) {
-        buttonIoState = BUTTON_IO_LOCKED;
-        return BUTTON_LONG_PRESS;
+      if (delta > WARN_BUTTON_LONG_PRESS_VALUE) {
+        WARN_buttonIoState = WARN_BUTTON_IO_LOCKED;
+        return WARN_BUTTON_LONG_PRESS;
       }
     } else {
-      buttonIoState = BUTTON_IO_UNPRESSED;
-      if (delta > BUTTON_SHORT_PRESS_COUNTER_VALUE) {
-        return BUTTON_SHORT_PRESS;
+      WARN_buttonIoState = WARN_BUTTON_IO_UNPRESSED;
+      if (delta > WARN_BUTTON_SHORT_PRESS_VALUE) {
+        return WARN_BUTTON_SHORT_PRESS;
       }
     }
   }
-  return BUTTON_UNPRESSED;
+  return WARN_BUTTON_UNPRESSED;
 }
 
-static inline void timeoutSettingMenu() {
-  button_event_t event = BUTTON_UNPRESSED;
-  for (uint8_t i = 1; i < BAM_RESOLUTION_MAX; i++) {
-    bamOutputMaskPrepareBuffer[i] = 0u;
+static inline void setTimeoutLedPatternOff(void) {
+  WARN_bamOutputMaskPrepareBuffer[0u] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_RIGHT_MID_BIT_MASK | WARN_LED_LEFT_MID_BIT_MASK);
+}
+
+static inline void setTimeoutLedPattern120s(void) {
+  WARN_bamOutputMaskPrepareBuffer[0u] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_LEFT_BIT_MASK | WARN_LED_RIGHT_BIT_MASK);
+}
+
+static inline void setTimeoutLedPatternMax(void) {
+  WARN_bamOutputMaskPrepareBuffer[0u] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_LEFT_BIT_MASK | WARN_LED_RIGHT_BIT_MASK | WARN_LED_LEFT_MID_BIT_MASK | WARN_LED_RIGHT_MID_BIT_MASK);
+}
+
+static inline void timeoutSettingMenu(void) {
+  WARN_button_event_t event = WARN_BUTTON_UNPRESSED;
+  for (uint8_t i = 1; i < WARN_BAM_RESOLUTION_MAX; i++) {
+    WARN_bamOutputMaskPrepareBuffer[i] = 0u;
   }
   uint8_t forceUpdate = 1u;
   do {
-    if (timeoutSetting == (uint8_t)TIMEOUT_OFF) {
-      bamOutputMaskPrepareBuffer[0u] =
-          LED_TOP_BIT_MASK | LED_RIGHT_MID_BIT_MASK | LED_LEFT_MID_BIT_MASK;
-    } else if (timeoutSetting == (uint8_t)TIMEOUT_120S) {
-      bamOutputMaskPrepareBuffer[0u] =
-          LED_TOP_BIT_MASK | LED_LEFT_BIT_MASK | LED_RIGHT_BIT_MASK;
+    if (WARN_timeoutSetting == WARN_TIMEOUT_OFF) {
+      setTimeoutLedPatternOff();
+    } else if (WARN_timeoutSetting == WARN_TIMEOUT_120S) {
+      setTimeoutLedPattern120s();
     } else {
-      bamOutputMaskPrepareBuffer[0u] =
-          LED_TOP_BIT_MASK | LED_LEFT_BIT_MASK | LED_RIGHT_BIT_MASK |
-          LED_LEFT_MID_BIT_MASK | LED_RIGHT_MID_BIT_MASK;
+      setTimeoutLedPatternMax();
     }
-    if (event == BUTTON_SHORT_PRESS) {
-      timeoutSetting++;
-      if (timeoutSetting > TIMEOUT_MAX) {
-        timeoutSetting = TIMEOUT_OFF;
+    if (event == WARN_BUTTON_SHORT_PRESS) {
+      WARN_timeoutSetting++;
+      if (WARN_timeoutSetting > WARN_TIMEOUT_MAX) {
+        WARN_timeoutSetting = WARN_TIMEOUT_OFF;
       }
       forceUpdate = 1u;
     }
@@ -461,50 +480,49 @@ static inline void timeoutSettingMenu() {
       forceUpdate = 0u;
     }
     event = buttonHandler();
-  } while (event != BUTTON_LONG_PRESS);
-  eeprom_update_byte(&eeTimeoutSetting, (uint8_t)timeoutSetting);
+  } while (event != WARN_BUTTON_LONG_PRESS);
+  eeprom_update_byte(&WARN_eeTimeoutSetting, (uint8_t)WARN_timeoutSetting);
 }
 
 int main(void) {
   uint8_t frameCounter = 0u;
   uint8_t isTimeoutActive = 0u;
-  sequence_state_t sequence = SEQUENCE_LEFT;
-  sequence_state_t sequenceBeforeTimeout = SEQUENCE_LEFT;
+  WARN_sequence_state_t sequence = WARN_SEQUENCE_LEFT;
+  WARN_sequence_state_t sequenceBeforeTimeout = WARN_SEQUENCE_LEFT;
   init();
   sei();
   while (1) {
-    button_event_t event = buttonHandler();
-    if (event == BUTTON_SHORT_PRESS) {
+    WARN_button_event_t event = buttonHandler();
+    if (event == WARN_BUTTON_SHORT_PRESS) {
       if (isTimeoutActive == 0u) {
-        sequence = (++sequence) & SEQUENCE_MASK;
+        sequence = (++sequence) & WARN_SEQUENCE_MASK;
       } else {
         sequence = sequenceBeforeTimeout;
         isTimeoutActive = 0u;
       }
       setPrepareStateReadySafe();
       frameCounter = 0u;
-      timeoutCounter = 0u;
-    } else if (event == BUTTON_LONG_PRESS) {
+      WARN_timeoutCounter = 0u;
+    } else if (event == WARN_BUTTON_LONG_PRESS) {
       sequenceBeforeTimeout = sequence;
       timeoutSettingMenu();
-      timeoutCounterLimit = getTimeoutCounterLimit(timeoutSetting);
+      WARN_timeoutLimit = getTimeoutCounterLimit(WARN_timeoutSetting);
       sequence = sequenceBeforeTimeout;
       frameCounter = 0u;
     }
-    if (prepareState == PREPARE_REQUEST) {
+    if (WARN_prepareState == WARN_PREPARE_REQUEST) {
       frameCounter++;
-      if (frameCounter >= FRAMES_PER_SEQUENCE) {
+      if (frameCounter >= WARN_FRAMES_PER_SEQUENCE) {
         frameCounter = 0u;
-        timeoutCounter++;
+        WARN_timeoutCounter++;
       }
-      sequence_t seq = sequencePointerLut[sequence];
+      WARN_sequence_t seq = WARN_sequencePointerLut[sequence];
       buildFrame(seq[frameCounter], sequence);
       setPrepareStateReadySafe();
     }
-    if ((timeoutSetting != (uint8_t)TIMEOUT_OFF) &&
-        (timeoutCounter >= timeoutCounterLimit) && (isTimeoutActive == 0u)) {
+    if ((WARN_timeoutSetting != WARN_TIMEOUT_OFF) && (WARN_timeoutCounter >= WARN_timeoutLimit) && (isTimeoutActive == 0u)) {
       sequenceBeforeTimeout = sequence;
-      sequence = (uint8_t)SEQUENCE_OFF;
+      sequence = WARN_SEQUENCE_OFF;
       isTimeoutActive = 1u;
       frameCounter = 0u;
     }
@@ -512,22 +530,22 @@ int main(void) {
 }
 
 ISR(TCA0_OVF_vect) {
-  if (bamStepTimerValueIndex >= (uint8_t)BAM_RESOLUTION_MAX) {
-    bamStepTimerValueIndex = 0u;
-    if (++bamRepetionCycleCounter >= BAM_REPETITION_CYCLES_PER_FRAME) {
-      bamRepetionCycleCounter = 0;
-      buttonFrameCounter++;
-      if (prepareState == PREPARE_READY) {
-        VPORTA.OUT = bamOutputMaskPrepareBuffer[bamStepTimerValueIndex];
-        for (uint8_t i = 0u; i < (uint8_t)BAM_RESOLUTION_MAX; i++) {
-          bamOutputMaskActiveBuffer[i] = bamOutputMaskPrepareBuffer[i];
+  if (WARN_bamStepTimerValueIndex >= (uint8_t)WARN_BAM_RESOLUTION_MAX) {
+    WARN_bamStepTimerValueIndex = 0u;
+    if (++WARN_bamRepetionCycleCounter >= WARN_BAM_REPETITION_CYCLES_PER_FRAME) {
+      WARN_bamRepetionCycleCounter = 0;
+      WARN_buttonFrameCounter++;
+      if (WARN_prepareState == WARN_PREPARE_READY) {
+        VPORTA.OUT = WARN_bamOutputMaskPrepareBuffer[WARN_bamStepTimerValueIndex];
+        for (uint8_t i = 0u; i < (uint8_t)WARN_BAM_RESOLUTION_MAX; i++) {
+          WARN_bamOutputMaskActiveBuffer[i] = WARN_bamOutputMaskPrepareBuffer[i];
         }
-        prepareState = PREPARE_REQUEST;
+        WARN_prepareState = WARN_PREPARE_REQUEST;
       }
     }
   }
-  TCA0_SINGLE_CNT = bamTimerValueList[bamStepTimerValueIndex];
-  VPORTA.OUT = bamOutputMaskActiveBuffer[bamStepTimerValueIndex];
-  bamStepTimerValueIndex++;
+  TCA0_SINGLE_CNT = WARN_bamTimerValueList[WARN_bamStepTimerValueIndex];
+  VPORTA.OUT = WARN_bamOutputMaskActiveBuffer[WARN_bamStepTimerValueIndex];
+  WARN_bamStepTimerValueIndex++;
   TCA0_SINGLE_INTFLAGS = TCA_SINGLE_OVF_bm;
 }
