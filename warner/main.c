@@ -443,15 +443,15 @@ static WARN_button_event_t buttonHandler(void) {
 }
 
 static inline void setTimeoutLedPatternOff(void) {
-  WARN_bamOutputMaskPrepareBuffer[0u] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_RIGHT_MID_BIT_MASK | WARN_LED_LEFT_MID_BIT_MASK);
+  WARN_bamOutputMaskPrepareBuffer[0] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_RIGHT_MID_BIT_MASK | WARN_LED_LEFT_MID_BIT_MASK);
 }
 
 static inline void setTimeoutLedPattern120s(void) {
-  WARN_bamOutputMaskPrepareBuffer[0u] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_LEFT_BIT_MASK | WARN_LED_RIGHT_BIT_MASK);
+  WARN_bamOutputMaskPrepareBuffer[0] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_LEFT_BIT_MASK | WARN_LED_RIGHT_BIT_MASK);
 }
 
 static inline void setTimeoutLedPatternMax(void) {
-  WARN_bamOutputMaskPrepareBuffer[0u] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_LEFT_BIT_MASK | WARN_LED_RIGHT_BIT_MASK | WARN_LED_LEFT_MID_BIT_MASK | WARN_LED_RIGHT_MID_BIT_MASK);
+  WARN_bamOutputMaskPrepareBuffer[0] = (uint8_t)(WARN_LED_TOP_BIT_MASK | WARN_LED_LEFT_BIT_MASK | WARN_LED_RIGHT_BIT_MASK | WARN_LED_LEFT_MID_BIT_MASK | WARN_LED_RIGHT_MID_BIT_MASK);
 }
 
 static inline void timeoutSettingMenu(void) {
