@@ -19,16 +19,16 @@ Implements smooth light effects using **8-bit Bit-Angle-Modulation (BAM)** with 
 
 - CPU clock: 20 MHz / 6 ≈ 3.33 MHz  
 - Timer A prescaler: /4 → 0.833 MHz (≈ 1.2 µs per tick)  
-- BAM: 8 bit, LSB = 20 ticks (≈ 24 µs)  
-- Bit durations: 20 – 2560 ticks (Bit 7 → Bit 0)  
-- 6 BAM cycles per frame → ~27 frames per second  
+- BAM: 8 bit, LSB = 20 ticks (≈ 24 µs) -> 36us (measuered) 
+- Bit durations: 20 – 3860 ticks (Bit 7 → Bit 0)  
+- ~100 frames per second  
 - Double-buffered bitplanes for flicker-free output  
 
 ---
 
 ## Sequences
 
-- **3 patterns:** Left, Mid, Right (each 56 frames × 5 LEDs)  
+- **3 patterns:** Left, Mid, Right 
 - Data stored in **PROGMEM**  
 - “Off” state implemented via forced zero mask  
 
@@ -45,8 +45,7 @@ Implements smooth light effects using **8-bit Bit-Angle-Modulation (BAM)** with 
 
 ## Timeout Feature
 
-- Configurable timeout: **OFF / 120 s / MAX (240 s)**  
-- Counter increments once per 56-frame cycle (~2 s per step)  
+- Configurable timeout: **OFF / 120 s / MAX (240 s)**    
 - Setting saved to EEPROM (restored on boot)
 
 ---
