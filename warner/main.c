@@ -28,14 +28,14 @@
 #define WARN_PA7_MASK (0x80u) // Top
 
 // Timer / BAM
-#define WARN_BAM_BIT_0_DURATION (20u)                                    // ~1.2us*20 // 36us)
-#define WARN_BAM_BIT_1_DURATION (WARN_BAM_BIT_0_DURATION * 2u + 10u)     // 72us
-#define WARN_BAM_BIT_2_DURATION (WARN_BAM_BIT_0_DURATION * 4u + 31u)     // 144us
-#define WARN_BAM_BIT_3_DURATION (WARN_BAM_BIT_0_DURATION * 8u + 72u)     // 288us
-#define WARN_BAM_BIT_4_DURATION (WARN_BAM_BIT_0_DURATION * 16u + 154u)   // 576us
-#define WARN_BAM_BIT_5_DURATION (WARN_BAM_BIT_0_DURATION * 32u + 326u)   // 1162us
-#define WARN_BAM_BIT_6_DURATION (WARN_BAM_BIT_0_DURATION * 64u + 640u)   // 2324us
-#define WARN_BAM_BIT_7_DURATION (WARN_BAM_BIT_0_DURATION * 128u + 1300u) // 4648us
+#define WARN_BAM_BIT_0_DURATION (20u)
+#define WARN_BAM_BIT_1_DURATION (60u)
+#define WARN_BAM_BIT_2_DURATION (108u)
+#define WARN_BAM_BIT_3_DURATION (202u)
+#define WARN_BAM_BIT_4_DURATION (392u)
+#define WARN_BAM_BIT_5_DURATION (768u)
+#define WARN_BAM_BIT_6_DURATION (1700u) 
+#define WARN_BAM_BIT_7_DURATION (3500u) 
 
 #define WARN_TIMER_MAX_VALUE (0xFFFFu)
 #define WARN_BAM_BIT_0_VALUE (WARN_TIMER_MAX_VALUE - WARN_BAM_BIT_0_DURATION)
@@ -142,8 +142,8 @@ const uint8_t WARN_sequenceLedValues[WARN_FRAMES_PER_SEQUENCE] PROGMEM = {
   //192
   127u, 127u, 127u, 127u, 127u, 127u, 127u, 127u, 
   127u, 127u, 127u, 127u, 127u, 127u, 127u, 127u, 
-  0u,   0u,   0u,   0u,   0u,   0u,   0u,   0u,
-  0u,   0u,   0u,   0u,   0u,   0u,   0u,   0u,
+  127u, 127u, 127u, 127u, 127u, 127u, 127u, 127u, 
+  127u, 127u, 127u, 127u, 127u, 127u, 127u, 127u, 
   0u,   0u,   0u,   0u,   0u,   0u,   0u,   0u,
   0u,   0u,   0u,   0u,   0u,   0u,   0u,   0u,
   0u,   0u,   0u,   0u,   0u,   0u,   0u,   0u,
